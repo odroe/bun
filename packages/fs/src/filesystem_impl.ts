@@ -1,8 +1,6 @@
 import { Readable } from 'stream';
-import { AdapterException } from './exceptions/adapter_exception';
-import { Filesystem } from './filesystem';
-import { FilesystemAdapter } from './filesystem_adapter';
-import { Metadata } from './metadata';
+import { AdapterException } from './exceptions';
+import { Filesystem, FilesystemAdapter, Metadata } from './interfaces';
 import { ProtocolPath } from './protocol_path';
 
 export const fs: Filesystem = new (class implements Filesystem {

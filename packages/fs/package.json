@@ -31,7 +31,7 @@
     "dist"
   ],
   "scripts": {
-    "prepublish": "tsc",
-    "build": "tsc"
+    "build": "rimraf dist & tsc --build",
+    "prepublishOnly": "rimraf dist & tsc --build"
   }
 }
