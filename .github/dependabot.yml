@@ -4,10 +4,25 @@
 # https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
+
+# Define dependabot `updates` schedule.
+schedule: &schedule
+  interval: 'daily'
+
+# Define dependabot `updates` commit message style.
+commit-message: &commit-message
+  prefix: '⬆️'
+
+# Define dependabot `updates` child base config.
+base-config: &base-config
+  package-ecosystem: 'npm'
+  schedule: *schedule
+  commit-message: *commit-message
+
 updates:
-  - package-ecosystem: 'npm' # See documentation for possible values
+  # Root workspace
+  - <<: *base-config
     directory: '/'
-    schedule:
-      interval: 'daily'
-    commit-message:
-      prefix: '⬆️'
+  # @odroe/fs
+  - <<: *base-config
+    directory: '/packages/fs'
