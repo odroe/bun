@@ -10,6 +10,4 @@ export interface FilesystemWriter {
   move(source: string, destinationLocation: string): Promise<void>;
 
   remove(path: string): Promise<void>;
-
-  rename(source: string, destinationLocation: string): Promise<void>;
 }

@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { ProtocolPathException } from './exceptions/protocol_path_exception';
+import { fs } from './filesystem_impl';
 
 const sep: string = '://';
 
@@ -9,7 +9,7 @@ export class ProtocolPath {
   static parse(path: string): ProtocolPath {
     const sepIndex: number = path.indexOf(sep);
     if (sepIndex === -1) {
-      throw new ProtocolPathException(path);
+      return new ProtocolPath(fs.defaultProtocol, path);
     }
 
     return new ProtocolPath(

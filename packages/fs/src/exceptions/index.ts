@@ -1,2 +1,2 @@
 export * from './adapter_exception';
-export * from './protocol_path_exception';
+export * from './filesystem_exception';

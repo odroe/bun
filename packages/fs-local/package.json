@@ -1,16 +1,17 @@
 {
   "version": "0.0.0",
-  "name": "@odroe/fs",
-  "description": "Abstraction of local and remote filesystems for NodeJS",
+  "name": "@odroe/fs-local",
+  "description": "Local filesystem adapter for @doroe/fs",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/odroe/fs.git",
-    "directory": "packages/fs"
+    "directory": "packages/fs-local"
   },
   "keywords": [
     "fs",
     "filesystem",
     "node",
+    "local",
     "nodejs",
     "js",
     "typescript",
@@ -38,5 +39,12 @@
   "scripts": {
     "build": "rimraf dist & tsc --build",
     "prepublishOnly": "rimraf dist & tsc --build"
+  },
+  "peerDependencies": {
+    "@odroe/fs": "workspace:^0.0.0"
+  },
+  "devDependencies": {
+    "@odroe/fs": "workspace:^0.0.0",
+    "file-type": "^17.1.1"
   }
 }

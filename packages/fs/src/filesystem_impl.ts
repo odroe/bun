@@ -105,10 +105,4 @@ export const fs: Filesystem = new (class implements Filesystem {
 
     return this.adapter(protocol).remove(path);
   }
-
-  rename(sourceLocation: string, destinationLocation: string): Promise<void> {
-    const { protocol, path }: ProtocolPath = ProtocolPath.parse(sourceLocation);
-
-    return this.adapter(protocol).rename(path, destinationLocation);
-  }
 })();
