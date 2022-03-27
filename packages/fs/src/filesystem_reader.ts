@@ -1,5 +1,5 @@
-import { Readable } from "stream";
-import { Metadata } from "./metadata";
+import { Readable } from 'stream';
+import { Metadata } from './metadata';
 
 export interface FilesystemReader {
   fileExists(path: string): Promise<boolean>;

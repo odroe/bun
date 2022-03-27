@@ -1,7 +1,6 @@
-
-import { FilesystemAdapter } from "./filesystem_adapter";
-import { FilesystemReader } from "./filesystem_reader";
-import { FilesystemWriter } from "./filesystem_writer";
+import { FilesystemAdapter } from './filesystem_adapter';
+import { FilesystemReader } from './filesystem_reader';
+import { FilesystemWriter } from './filesystem_writer';
 
 export interface Filesystem extends FilesystemReader, FilesystemWriter {
   registerAdapter(name: string, adapter: FilesystemAdapter): void;

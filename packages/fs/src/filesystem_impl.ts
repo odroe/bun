@@ -1,13 +1,16 @@
-import { Readable } from "stream";
-import { AdapterException } from "./exceptions/adapter_exception";
-import { Filesystem } from "./filesystem";
-import { FilesystemAdapter } from "./filesystem_adapter";
-import { Metadata } from "./metadata";
-import { ProtocolPath } from "./protocol_path";
+import { Readable } from 'stream';
+import { AdapterException } from './exceptions/adapter_exception';
+import { Filesystem } from './filesystem';
+import { FilesystemAdapter } from './filesystem_adapter';
+import { Metadata } from './metadata';
+import { ProtocolPath } from './protocol_path';
 
-export const fs: Filesystem = new class implements Filesystem {
-  private _adapters: Map<string, FilesystemAdapter> = new Map<string, FilesystemAdapter>();
-  private _defaultProtocol: string = "file";
+export const fs: Filesystem = new (class implements Filesystem {
+  private _adapters: Map<string, FilesystemAdapter> = new Map<
+    string,
+    FilesystemAdapter
+  >();
+  private _defaultProtocol: string = 'file';
 
   get defaultProtocol(): string {
     return this._defaultProtocol;
@@ -110,4 +113,4 @@ export const fs: Filesystem = new class implements Filesystem {
 
     return this.adapter(protocol).rename(path, destinationLocation);
   }
-};
+})();

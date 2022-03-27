@@ -1,14 +1,10 @@
-import { join } from "path";
-import { ProtocolPathException } from "./exceptions/protocol_path_exception";
+import { join } from 'path';
+import { ProtocolPathException } from './exceptions/protocol_path_exception';
 
-
-const sep: string = "://";
+const sep: string = '://';
 
 export class ProtocolPath {
-  constructor(
-    public readonly protocol: string,
-    public readonly path: string,
-  ) {}
+  constructor(public readonly protocol: string, public readonly path: string) {}
 
   static parse(path: string): ProtocolPath {
     const sepIndex: number = path.indexOf(sep);

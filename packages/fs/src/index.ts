@@ -1,4 +1,3 @@
-
 export * from './filesystem_adapter';
 export * from './filesystem';
 export * from './filesystem_reader';

@@ -1,0 +1,33 @@
+{
+  "version": "0.0.0",
+  "name": "@odroe/fs",
+  "description": "Abstraction of local and remote filesystems for NodeJS",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=12.6"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/odroe/fs.git"
+  },
+  "keywords": [
+    "fs",
+    "filesystem",
+    "node",
+    "promise",
+    "nodejs",
+    "js",
+    "typescript",
+    "ts"
+  ],
+  "author": "Odroe Inc. <hello@odroe.com> (https://odroe.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/odroe/fs/issues"
+  },
+  "homepage": "https://github.com/odroe/fs#readme"
+}
