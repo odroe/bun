@@ -15,5 +15,6 @@ export interface Metadata {
 
   length(): Promise<number>;
 
-  get extra(): MetadataExtra;
+  get extra(): MetadataExtra | undefined;
+  get path(): string;
 }

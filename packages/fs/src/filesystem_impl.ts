@@ -8,10 +8,15 @@ export const fs: Filesystem = new (class implements Filesystem {
     string,
     FilesystemAdapter
   >();
-  private _defaultProtocol: string = 'file';
+  private _defaultProtocol?: string;
 
   get defaultProtocol(): string {
-    return this._defaultProtocol;
+    if (this._defaultProtocol) {
+      return this._defaultProtocol;
+    }
+
+    // If no default protocol is set, return the first registered protocol.
+    return Array.from(this._adapters.keys())[0];
   }
 
   setDefaultProtocol(protocol: string): void {
@@ -23,7 +28,7 @@ export const fs: Filesystem = new (class implements Filesystem {
   }
 
   registerAdapter(name: string, adapter: FilesystemAdapter): void {
-    if (this.exists(name)) {
+    if (this.adapterExists(name)) {
       throw new AdapterException(name, `Adapter "${name}" already exists.`);
     }
 
@@ -35,14 +40,14 @@ export const fs: Filesystem = new (class implements Filesystem {
   }
 
   adapter(name: string): FilesystemAdapter {
-    if (!this.exists(name)) {
+    if (!this.adapterExists(name)) {
       throw new AdapterException(name, `Adapter "${name}" not found.`);
     }
 
     return this._adapters.get(name)!;
   }
 
-  exists(name: string): boolean {
+  adapterExists(name: string): boolean {
     return this._adapters.has(name);
   }
 

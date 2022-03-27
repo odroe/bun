@@ -5,7 +5,7 @@ import {
   fs,
   FilesystemException,
 } from '@odroe/fs';
-import { join, resolve } from 'path';
+import { dirname, join, resolve } from 'path';
 import { Readable } from 'stream';
 import localFs from 'fs';
 import { LocalMetadata } from './internal';
@@ -20,7 +20,11 @@ export class LocalAdapter implements FilesystemAdapter {
   async fileExists(path: string): Promise<boolean> {
     const target = this.resolve(path);
 
-    return localFs.existsSync(target);
+    try {
+      return localFs.existsSync(target);
+    } catch (e) {
+      return false;
+    }
   }
 
   directoryExists(path: string): Promise<boolean> {
@@ -28,7 +32,10 @@ export class LocalAdapter implements FilesystemAdapter {
   }
 
   async readFile(path: string): Promise<Readable> {
-    return localFs.createReadStream(this.resolve(path));
+    return localFs.createReadStream(this.resolve(path), {
+      flags: 'r',
+      autoClose: true,
+    });
   }
 
   readDirectory(path: string): Promise<string[]> {
@@ -38,19 +45,35 @@ export class LocalAdapter implements FilesystemAdapter {
   }
 
   async metadata(path: string): Promise<Metadata> {
-    return new LocalMetadata(path);
+    return new LocalMetadata(this.resolve(path));
   }
 
-  createDirectory(path: string): Promise<void> {
-    return localFs.promises.mkdir(this.resolve(path));
+  async createDirectory(path: string): Promise<void> {
+    const _path = this.resolve(path);
+
+    if (await this.directoryExists(_path)) {
+      return;
+    }
+
+    await localFs.promises.mkdir(_path, { recursive: true });
   }
 
-  writeFile(path: string, content: string | Readable): Promise<void> {
+  async writeFile(path: string, content: string | Readable): Promise<void> {
+    const resolvedPath = this.resolve(path);
+
+    // Create the directory if it does not exist
+    const directory = dirname(resolvedPath);
+
+    // If the directory does not exist, create it
+    await this.createDirectory(directory);
+
+    // If the content is a readable stream, write it to the file
     if (content instanceof Readable && typeof content != 'string') {
       return this._writeStream(path, content);
     }
 
-    return localFs.promises.writeFile(this.resolve(path), content);
+    // Write the content to the file
+    return localFs.promises.writeFile(resolvedPath, content);
   }
 
   async copy(source: string, destinationLocation: string): Promise<void> {
@@ -145,10 +168,18 @@ export class LocalAdapter implements FilesystemAdapter {
     );
   }
 
-  remove(path: string): Promise<void> {
-    const target = this.resolve(path);
-
-    return localFs.promises.unlink(target);
+  /**
+   * 删除文件或者目录
+   *
+   * 如果是 path 是文件，则删除文件。
+   * 如果是 path 是目录，则删除目录，并且删除目录下的所有文件。
+   *
+   * @param path 需要删除的文件或者目录路径
+   */
+  async remove(path: string): Promise<void> {
+    if (await this.fileExists(path)) {
+      return localFs.promises.rm(this.resolve(path), { recursive: true });
+    }
   }
 
   private async _withRemoteFilesystemMove(

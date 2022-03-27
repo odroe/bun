@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "0.using_fs_adapter",
+  "scripts": {
+    "start": "ts-node ./src/index.ts"
+  },
+  "dependencies": {
+    "@odroe/fs": "workspace:^0.0.0",
+    "@odroe/fs-local": "workspace:^0.0.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.7.0"
+  }
+}

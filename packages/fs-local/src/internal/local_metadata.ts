@@ -5,7 +5,7 @@ import { LocalMetadataExtra } from './local_metadata_extra';
 export class LocalMetadata implements Metadata {
   private _cachedStats: fs.Stats | null = null;
 
-  constructor(private readonly path: string) {}
+  constructor(public readonly path: string) {}
 
   get extra(): MetadataExtra {
     return new LocalMetadataExtra(this.path);
