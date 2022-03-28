@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.2",
   "name": "@odroe/fs",
   "description": "Abstraction of local and remote filesystems for NodeJS",
   "repository": {
@@ -22,16 +22,14 @@
     "url": "https://github.com/odroe/fs/issues"
   },
   "homepage": "https://github.com/odroe/fs#readme",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "publishConfig": {
-    "access": "public",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts"
+    "access": "public"
   },
   "files": [
     "dist"
   ],
-  "module": "",
   "engines": {
     "node": ">=12.6"
   },
