@@ -38,9 +38,10 @@ fs.writeFile('local://hello.txt', 'Hello World!');
 
 ## Adapters
 
-| Name                                                               | Version                                                                | Description              |
-| ------------------------------------------------------------------ | ---------------------------------------------------------------------- | ------------------------ |
-| [`@odroe/fs-local`](https://www.npmjs.com/package/@odroe/fs-local) | ![npm](https://img.shields.io/npm/v/@odroe/fs-local?style=flat) | Local filesystem adapter |
+| Name                                                               | Version                                                         | Description                                     |
+| ------------------------------------------------------------------ | --------------------------------------------------------------- | ----------------------------------------------- |
+| [`@odroe/fs-local`](https://www.npmjs.com/package/@odroe/fs-local) | ![npm](https://img.shields.io/npm/v/@odroe/fs-local?style=flat) | Local filesystem adapter                        |
+| [`@odroe/fs-cos`](https://www.npmjs.com/package/@odroe/fs-cos)     | ![npm](https://img.shields.io/npm/v/@odroe/fs-cos?style=flat)   | Tencent Cloud Object Storage filesystem adapter |
 
 ## Examples
 
