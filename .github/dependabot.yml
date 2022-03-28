@@ -19,3 +19,10 @@ updates:
       interval: 'daily'
     commit-message:
       prefix: '⬆️'
+  # @odroe/fs-local
+  - package-ecosystem: 'npm'
+    directory: '/packages/fs-local'
+    schedule:
+      interval: 'daily'
+    commit-message:
+      prefix: '⬆️'
