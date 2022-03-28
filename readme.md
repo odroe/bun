@@ -40,7 +40,7 @@ fs.writeFile('local://hello.txt', 'Hello World!');
 
 | Name                                                               | Version                                                                | Description              |
 | ------------------------------------------------------------------ | ---------------------------------------------------------------------- | ------------------------ |
-| [`@odroe/fs-local`](https://www.npmjs.com/package/@odroe/fs-local) | ![npm](https://img.shields.io/npm/v/@odroe/fs-local?style=flat-square) | Local filesystem adapter |
+| [`@odroe/fs-local`](https://www.npmjs.com/package/@odroe/fs-local) | ![npm](https://img.shields.io/npm/v/@odroe/fs-local?style=flat) | Local filesystem adapter |
 
 ## Examples
 
