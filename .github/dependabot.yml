@@ -21,7 +21,7 @@ updates:
       prefix: '⬆️'
   # @odroe/fs-local
   - package-ecosystem: 'npm'
-    directory: '/packages/local-adapter'
+    directory: '/packages/local_adapter'
     schedule:
       interval: 'daily'
     commit-message:
