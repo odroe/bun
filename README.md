@@ -34,9 +34,9 @@ fs.writeFile('local://hello.txt', 'Hello World!');
 
 ## Examples
 
-- 0x1 - [Using a filesystem adapter](examples/0.using_fs_adapter/)
+- 0x1 - [Using a filesystem adapter](https://github.com/odroe/fs/tree/main/examples/0.using_fs_adapter)
 
-> Note: All examples see 👉 [examples](examples)
+> Note: All examples see 👉 [examples](https://github.com/odroe/fs/tree/main/examples)
 
 ## License
 
