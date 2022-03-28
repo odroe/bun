@@ -89,9 +89,6 @@ export class LocalAdapter implements FilesystemAdapter {
   }
 
   async copy(source: string, destinationLocation: string): Promise<void> {
-    // Resolve the source path
-    const sourcePath = this.resolve(source);
-
     // Get source exists status
     const sourceExists = await this.fileExists(source);
 
@@ -135,9 +132,6 @@ export class LocalAdapter implements FilesystemAdapter {
   }
 
   async move(source: string, destinationLocation: string): Promise<void> {
-    // Resolve the source path
-    const sourcePath = this.resolve(source);
-
     // Get source exists status
     const sourceExists = await this.fileExists(source);
 

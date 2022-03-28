@@ -1,17 +1,15 @@
 {
-  "version": "0.1.7",
-  "name": "@odroe/fs-local",
-  "description": "Local filesystem adapter for @doroe/fs",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/odroe/fs.git",
-    "directory": "packages/fs-local"
-  },
+  "name": "@odroe/fs-cos",
+  "version": "0.0.0",
+  "description": "Tencent Cloud Object Storage adapter for @odroe/cos",
   "keywords": [
     "fs",
     "filesystem",
+    "vfs",
     "node",
-    "local",
+    "cos",
+    "cloud",
+    "tencent",
     "nodejs",
     "js",
     "typescript",
@@ -23,25 +21,20 @@
     "url": "https://github.com/odroe/fs/issues"
   },
   "homepage": "https://github.com/odroe/fs#readme",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "publishConfig": {
-    "access": "public"
-  },
   "files": [
     "dist"
   ],
-  "engines": {
-    "node": ">=12.6"
+  "publishConfig": {
+    "access": "public"
   },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "rimraf dist & tsc --build",
     "prepublishOnly": "rimraf dist & tsc --build"
   },
   "dependencies": {
-    "file-type": "^17.1.1"
-  },
-  "peerDependencies": {
-    "@odroe/fs": "^0.1.3"
+    "@odroe/fs": "^0.1.7",
+    "cos-nodejs-sdk-v5": "^2.11.6"
   }
 }
