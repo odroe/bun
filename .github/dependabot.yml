@@ -26,6 +26,13 @@ updates:
       interval: 'daily'
     commit-message:
       prefix: '⬆️'
+  # @odroe/fs-cos
+  - package-ecosystem: 'npm'
+    directory: '/packages/cos_adapter'
+    schedule:
+      interval: 'daily'
+    commit-message:
+      prefix: '⬆️'
   # Example 0
   - package-ecosystem: 'npm'
     directory: '/examples/0.using_fs_adapter'
