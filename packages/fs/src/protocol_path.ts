@@ -18,8 +18,20 @@ export class ProtocolPath {
     );
   }
 
+  static protocol(protocol: string): ProtocolPath {
+    return new ProtocolPath(protocol, '');
+  }
+
   static isProtocolPath(path: string): boolean {
     return path.indexOf(sep) !== -1;
+  }
+
+  setProtocol(protocol: string): ProtocolPath {
+    return new ProtocolPath(protocol, this.path);
+  }
+
+  setPath(path: string): ProtocolPath {
+    return new ProtocolPath(this.protocol, path);
   }
 
   join(...paths: string[]): ProtocolPath {
