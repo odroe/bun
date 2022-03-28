@@ -39,9 +39,7 @@
     "prepublishOnly": "rimraf dist & tsc --build"
   },
   "dependencies": {
-    "file-type": "^17.1.1"
-  },
-  "peerDependencies": {
-    "@odroe/fs": "^0.1.3"
+    "file-type": "^17.1.1",
+    "@odroe/fs": "^0.1.8"
   }
 }
