@@ -75,6 +75,12 @@ export const fs: Filesystem = new (class implements Filesystem {
     return this.adapter(protocol).readDirectory(path);
   }
 
+  appendFile(location: string, content: string | Readable): Promise<void> {
+    const { protocol, path }: ProtocolPath = ProtocolPath.parse(location);
+
+    return this.adapter(protocol).appendFile(path, content);
+  }
+
   metadata(location: string): Promise<Metadata> {
     const { protocol, path }: ProtocolPath = ProtocolPath.parse(location);
 

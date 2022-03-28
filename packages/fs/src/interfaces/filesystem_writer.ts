@@ -5,6 +5,8 @@ export interface FilesystemWriter {
 
   writeFile(path: string, content: string | Readable): Promise<void>;
 
+  appendFile(path: string, content: string | Readable): Promise<void>;
+
   copy(source: string, destinationLocation: string): Promise<void>;
 
   move(source: string, destinationLocation: string): Promise<void>;
