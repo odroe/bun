@@ -3,11 +3,64 @@ import { AdapterException } from './exceptions';
 import { Filesystem, FilesystemAdapter, Metadata } from './interfaces';
 import { ProtocolPath } from './protocol_path';
 
+/**
+ * Filesystem implementation.
+ *
+ * ### Usage
+ *
+ * Support default import or named import.
+ *
+ * #### Default import
+ *
+ * ```typescript
+ * import fs from '@odroe/fs';
+ * ```
+ *
+ * #### Named import
+ *
+ * ```typescript
+ * import { fs } from '@odroe/fs';
+ * ```
+ *
+ * ### 0x0 Example - Read file.
+ *
+ * ```typescript
+ * import fs from '@odroe/fs';
+ *
+ * const path = 'cloud://examples/0x0.txt';
+ * const readable = fs.readFile(path);
+ * const chunks: string[] = [];
+ *
+ * readable.on('data', (chunk: string | Buffer) => {
+ *  if (typeof chunk === 'string') {
+ *   chunks.push(chunk);
+ *   return;
+ *  }
+ *  chunks.push(chunk.toString('utf-8'));
+ * });
+ *
+ * readable.on('end', () => {
+ *  console.log(chunks.join(''));
+ * });
+ * ```
+ *
+ * ### 0x1 Example - Write file.
+ *
+ * ```typescript
+ * import fs from '@odroe/fs';
+ * fs.writeFile('cloud://examples/0x1.txt', 'Hello @odroe/fs!');
+ * ```
+ *
+ * ### APIs
+ *
+ * @see {@link Filesystem}
+ */
 export const fs: Filesystem = new (class implements Filesystem {
   private _adapters: Map<string, FilesystemAdapter> = new Map<
     string,
     FilesystemAdapter
   >();
+
   private _defaultProtocol?: string;
 
   get defaultProtocol(): string {

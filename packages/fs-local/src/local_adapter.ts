@@ -69,7 +69,7 @@ export class LocalAdapter implements FilesystemAdapter {
 
     // If the content is a readable stream, write it to the file
     if (content instanceof Readable && typeof content != 'string') {
-      return this._writeStream(path, content, "w");
+      return this._writeStream(path, content, 'w');
     }
 
     // Write the content to the file
@@ -82,7 +82,7 @@ export class LocalAdapter implements FilesystemAdapter {
     }
 
     if (content instanceof Readable && typeof content != 'string') {
-      return this._writeStream(path, content, "a");
+      return this._writeStream(path, content, 'a');
     }
 
     return localFs.promises.appendFile(this.resolve(path), content);
@@ -278,7 +278,11 @@ export class LocalAdapter implements FilesystemAdapter {
     return localFs.promises.copyFile(sourcePath, destinationPath);
   }
 
-  private async _writeStream(path: string, stream: Readable, flags?: "a" | "w"): Promise<void> {
+  private async _writeStream(
+    path: string,
+    stream: Readable,
+    flags?: 'a' | 'w',
+  ): Promise<void> {
     const target = this.resolve(path);
     const writeStream = localFs.createWriteStream(target, {
       autoClose: true,

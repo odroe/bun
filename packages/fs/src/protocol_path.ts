@@ -1,8 +1,40 @@
 import { join } from 'path';
 import { fs } from './filesystem_impl';
 
+// Protocol and path separator.
 const sep: string = '://';
 
+/**
+ * Protocol path utility.
+ *
+ * Protocol path utility is the same as parsing path and protocol. It also assists in creating remote locations.
+ *
+ * ### 0x0 Parse a remote location.
+ * ```ts
+ * const { protocol, path } = ProtocolPath.parse('local://hello.txt');
+ * ```
+ *
+ * ### 0x1 Create a remote location.
+ * ```ts
+ * const path = new ProtocolPath('local', 'hello.txt');
+ * ```
+ *
+ * OR
+ *
+ * ```ts
+ * const path = ProtocolPath.protocol('local').setPath('hello.txt');
+ * ```
+ *
+ * ### 0x2 Only protocol.
+ * ```ts
+ * const path = ProtocolPath.protocol('local');
+ * ```
+ * OR
+ *
+ * ```ts
+ * const path = new ProtocolPath('local', '');
+ * ```
+ */
 export class ProtocolPath {
   constructor(public readonly protocol: string, public readonly path: string) {}
 

@@ -3,7 +3,7 @@ import { Metadata } from './metadata';
 
 /**
  * Filesystem reader interface.
- * 
+ *
  * Filesystem readers are responsible for reading files and directories.
  */
 export interface FilesystemReader {

@@ -4,14 +4,14 @@
 export interface MetadataExtra {
   /**
    * Get file mime type.
-   * 
+   *
    * If the file is a directory, the mime type is `null`.
    */
   mimeType(): Promise<string | null>;
 
   /**
    * Get file `md5` hash.
-   * 
+   *
    * If the file is a directory, the hash is `null`.
    */
   md5(): Promise<string | null>;
@@ -19,7 +19,7 @@ export interface MetadataExtra {
 
 /**
  * File or directory metadata.
- * 
+ *
  * @see {@link FileMetadataExtra} and {@link DirectoryMetadataExtra}
  */
 export interface Metadata {
