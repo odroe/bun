@@ -40,4 +40,4 @@ fs.writeFile('local://hello.txt', 'Hello World!');
 
 ## License
 
-[MIT license](LICENSE).
+[MIT license](https://github.com/odroe/fs/tree/main/LICENSE).
