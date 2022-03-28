@@ -1,6 +1,6 @@
 {
   "name": "@odroe/fs-cos",
-  "version": "0.0.0",
+  "version": "0.1.8",
   "description": "Tencent Cloud Object Storage adapter for @odroe/cos",
   "keywords": [
     "fs",
