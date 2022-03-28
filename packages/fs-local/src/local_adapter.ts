@@ -69,11 +69,23 @@ export class LocalAdapter implements FilesystemAdapter {
 
     // If the content is a readable stream, write it to the file
     if (content instanceof Readable && typeof content != 'string') {
-      return this._writeStream(path, content);
+      return this._writeStream(path, content, "w");
     }
 
     // Write the content to the file
     return localFs.promises.writeFile(resolvedPath, content);
+  }
+
+  async appendFile(path: string, content: string | Readable): Promise<void> {
+    if (!(await this.fileExists(path))) {
+      throw new FilesystemException(`File ${path} does not exist`);
+    }
+
+    if (content instanceof Readable && typeof content != 'string') {
+      return this._writeStream(path, content, "a");
+    }
+
+    return localFs.promises.appendFile(this.resolve(path), content);
   }
 
   async copy(source: string, destinationLocation: string): Promise<void> {
@@ -168,14 +180,6 @@ export class LocalAdapter implements FilesystemAdapter {
     );
   }
 
-  /**
-   * 删除文件或者目录
-   *
-   * 如果是 path 是文件，则删除文件。
-   * 如果是 path 是目录，则删除目录，并且删除目录下的所有文件。
-   *
-   * @param path 需要删除的文件或者目录路径
-   */
   async remove(path: string): Promise<void> {
     if (await this.fileExists(path)) {
       return localFs.promises.rm(this.resolve(path), { recursive: true });
@@ -274,9 +278,12 @@ export class LocalAdapter implements FilesystemAdapter {
     return localFs.promises.copyFile(sourcePath, destinationPath);
   }
 
-  private async _writeStream(path: string, stream: Readable): Promise<void> {
+  private async _writeStream(path: string, stream: Readable, flags?: "a" | "w"): Promise<void> {
     const target = this.resolve(path);
-    const writeStream = localFs.createWriteStream(target, { autoClose: true });
+    const writeStream = localFs.createWriteStream(target, {
+      autoClose: true,
+      flags,
+    });
 
     return new Promise((resolve, reject) => {
       stream.pipe(writeStream);
