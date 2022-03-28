@@ -1,5 +1,5 @@
 {
-  "version": "0.1.6",
+  "version": "0.1.7",
   "name": "@odroe/fs",
   "description": "Abstraction of local and remote filesystems for NodeJS",
   "repository": {
@@ -28,9 +28,7 @@
     "access": "public"
   },
   "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
+    "dist"
   ],
   "engines": {
     "node": ">=12.6"
