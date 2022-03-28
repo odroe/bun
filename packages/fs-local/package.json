@@ -40,11 +40,10 @@
     "build": "rimraf dist & tsc --build",
     "prepublishOnly": "rimraf dist & tsc --build"
   },
-  "peerDependencies": {
-    "@odroe/fs": "workspace:^0.0.0"
-  },
-  "devDependencies": {
-    "@odroe/fs": "workspace:^0.0.0",
+  "dependencies": {
     "file-type": "^17.1.1"
+  },
+  "peerDependencies": {
+    "@odroe/fs": "workspace:^0.1.0"
   }
 }
