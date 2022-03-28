@@ -1,27 +1,21 @@
 /**
  * File metadata extra properties.
  */
-export interface FileMetadataExtra {
+export interface MetadataExtra {
   /**
    * Get file mime type.
+   * 
+   * If the file is a directory, the mime type is `null`.
    */
-  mimeType(): Promise<string>;
+  mimeType(): Promise<string | null>;
 
   /**
    * Get file `md5` hash.
+   * 
+   * If the file is a directory, the hash is `null`.
    */
-  md5(): Promise<string>;
+  md5(): Promise<string | null>;
 }
-
-/**
- * Directory metadata extra properties.
- */
-export interface DirectoryMetadataExtra {}
-
-/**
- * File or directory metadata extra.
- */
-export type MetadataExtra<IS_FILE extends boolean> = {} & (IS_FILE extends true ? FileMetadataExtra : DirectoryMetadataExtra);
 
 /**
  * File or directory metadata.
@@ -57,7 +51,7 @@ export interface Metadata {
   /**
    * Get file or directory extra properties.
    */
-  get extra(): Promise<MetadataExtra<boolean>>;
+  extra(): Promise<MetadataExtra>;
 
   /**
    * Get file or directory in filesystem path.

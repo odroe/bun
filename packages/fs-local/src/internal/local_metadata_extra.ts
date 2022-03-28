@@ -6,9 +6,16 @@ import type { FileTypeResult } from 'file-type';
 const defaultMimeType = 'application/octet-stream';
 
 export class LocalMetadataExtra implements MetadataExtra {
-  constructor(private readonly path: string) {}
+  constructor(
+    private readonly path: string,
+    private readonly stats: fs.Stats,
+  ) {}
 
-  async mimeType(): Promise<string> {
+  async mimeType(): Promise<string | null> {
+    if (this.stats.isDirectory()) {
+      return null;
+    }
+
     // https://github.com/microsoft/TypeScript/issues/43329
     const filetype = await (Function('return import("file-type")')() as Promise<
       typeof import('file-type')
@@ -23,7 +30,11 @@ export class LocalMetadataExtra implements MetadataExtra {
     }
   }
 
-  md5(): Promise<string> {
+  async md5(): Promise<string | null> {
+    if (this.stats.isDirectory()) {
+      return null;
+    }
+
     const encoding: BufferEncoding = 'utf8';
     const stream: fs.ReadStream = fs.createReadStream(this.path, {
       autoClose: true,

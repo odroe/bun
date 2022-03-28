@@ -7,8 +7,8 @@ export class LocalMetadata implements Metadata {
 
   constructor(public readonly path: string) {}
 
-  get extra(): MetadataExtra {
-    return new LocalMetadataExtra(this.path);
+  async extra(): Promise<MetadataExtra> {
+    return new LocalMetadataExtra(this.path, await this._stats());
   }
 
   async isFile(): Promise<boolean> {
