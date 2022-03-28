@@ -7,9 +7,6 @@
     "serve": "ts-node src/index.ts",
     "build": "tsc --build"
   },
-  "devDependencies": {
-    "ts-node": "^10.7.0"
-  },
   "dependencies": {
     "@odroe/fs": "^0.1.3",
     "@odroe/fs-local": "^0.1.3"
