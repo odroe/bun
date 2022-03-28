@@ -40,4 +40,4 @@ fs.writeFile('local://hello.txt', 'Hello World!');
 
 ## License
 
-[MIT license](LICENSE.md).
+[MIT license](LICENSE).
