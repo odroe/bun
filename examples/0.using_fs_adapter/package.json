@@ -11,8 +11,8 @@
     "ts-node": "^10.7.0"
   },
   "dependencies": {
-    "@odroe/fs": "^0.1.0",
-    "@odroe/fs-local": "^0.1.0"
+    "@odroe/fs": "^0.1.3",
+    "@odroe/fs-local": "^0.1.3"
   },
-  "version": "0.1.2"
+  "version": "0.1.3"
 }
