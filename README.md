@@ -40,4 +40,4 @@ fs.writeFile('local://hello.txt', 'Hello World!');
 
 ## License
 
-The git repository is licensed under the [MIT license](LICENSE.md).
+[MIT license](LICENSE.md).
