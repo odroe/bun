@@ -11,5 +11,5 @@
     "@odroe/fs": "^0.1.3",
     "@odroe/fs-local": "^0.1.3"
   },
-  "version": "0.1.8"
+  "version": "0.1.10"
 }
