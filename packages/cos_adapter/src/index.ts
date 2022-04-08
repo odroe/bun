@@ -332,22 +332,11 @@ export class COSAdapter implements FilesystemAdapter {
     // Get source metadata
     const metadata = await this.metadata(source);
 
-    // If source is a directory, copy recursively
+    // If source is a directory, throw an error
     if (await metadata.isDirectory()) {
-      // Get source directory contents
-      const files = await this.readDirectory(source);
-
-      // Copy each file recursively
-      for (const file of files) {
-        const _path = this._dirResolve(source) + file;
-        const fileMatadata = await this.metadata(_path);
-        if (await fileMatadata.isFile()) {
-          const sourceStream = await this.readFile(_path);
-          await adapter.writeFile(destination.join(file).path, sourceStream);
-        }
-      }
-
-      return;
+      throw new FilesystemException(
+        `Cannot copy directory ${source} to ${destination.path}, COS does not support directory copy`,
+      );
     }
 
     // If source is a file, copy file
@@ -357,7 +346,7 @@ export class COSAdapter implements FilesystemAdapter {
 
   async move(source: string, destination: string): Promise<void> {
     await this.copy(source, destination);
-    // await this.remove(source);
+    await this.remove(source);
   }
 
   async remove(path: string): Promise<void> {
