@@ -35,6 +35,6 @@
   },
   "dependencies": {
     "@odroe/fs": "^0.1.8",
-    "cos-nodejs-sdk-v5": "^2.11.17"
+    "cos-nodejs-sdk-v5": "^2.11.18"
   }
 }
