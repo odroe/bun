@@ -3,3 +3,4 @@ package-lock.json
 utils/
 .github/
 prisma/
+node_modules/
