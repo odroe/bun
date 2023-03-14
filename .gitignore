@@ -3,4 +3,3 @@ node_modules/
 pubspec.lock
 prisma/*
 !prisma/schema.prisma
-
