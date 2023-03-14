@@ -1,55 +1,39 @@
-# Filesystem
+<!-- 
+This README describes the package. If you publish this package to pub.dev,
+this README's contents appear on the landing page for your package.
 
-Abstraction of local and remote filesystems for [NodeJS](https://nodejs.org/).
+For information about how to write a good package README, see the guide for
+[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
 
-[![npm](https://img.shields.io/npm/v/@odroe/fs?style=flat)](https://www.npmjs.com/package/@odroe/fs)
-[![GitHub license](https://img.shields.io/github/license/odroe/fs?style=flat)](https://github.com/odroe/fs/blob/main/LICENSE)
-[![downloads](https://badgen.net/npm/dt/@odroe/fs)](https://www.npmjs.com/package/@odroe/fs)
+For general information about developing packages, see the Dart guide for
+[creating packages](https://dart.dev/guides/libraries/create-library-packages)
+and the Flutter guide for
+[developing packages and plugins](https://flutter.dev/developing-packages). 
+-->
+
+TODO: Put a short description of the package here that helps potential users
+know whether this package might be useful for them.
 
 ## Features
 
-- `async/await` - All operations are promises.
-- **Concentrated** - You can use it in any NodeJS project.
-- **Adapter** - You can extend it with your own adapter.
-- **Stream** - Managing remote files is as easy as managing locally.
-- **Non-Memory** - `read` and `write` operate on non-memory streams.
+TODO: List what your package can do. Maybe include images, gifs, or videos.
 
-## Installation
+## Getting started
 
-Install `@odroe/fs` with [npm](https://www.npmjs.com/):
-
-```sh
-npm i @odroe/fs
-```
+TODO: List prerequisites and provide or point to information on how to
+start using the package.
 
 ## Usage
 
-The example using `@odroe/fs-local`:
+TODO: Include short and useful examples for package users. Add longer examples
+to `/example` folder. 
 
-```ts
-import { fs } from '@odroe/fs';
-import { LocalAdapter } from '@odroe/fs-local';
-
-const local = new LocalAdapter('/storage');
-fs.registerAdapter('local', local);
-
-fs.writeFile('local://hello.txt', 'Hello World!');
+```dart
+const like = 'sample';
 ```
 
-## Adapters
+## Additional information
 
-| Name                                                               | Version                                                         | Description                                     |
-| ------------------------------------------------------------------ | --------------------------------------------------------------- | ----------------------------------------------- |
-| [`@odroe/fs-local`](https://www.npmjs.com/package/@odroe/fs-local) | ![npm](https://img.shields.io/npm/v/@odroe/fs-local?style=flat) | Local filesystem adapter                        |
-| [`@odroe/fs-cos`](https://www.npmjs.com/package/@odroe/fs-cos)     | ![npm](https://img.shields.io/npm/v/@odroe/fs-cos?style=flat)   | Tencent Cloud Object Storage filesystem adapter |
-
-## Examples
-
-- 0x0 - [Using a filesystem adapter](https://github.com/odroe/fs/tree/main/examples/0.using_fs_adapter)
-- 0x1 - [Create a local filesystem adapter](https://github.com/odroe/fs/tree/main/examples/1.create_a_local_adapter)
-
-> Note: All examples see 👉 [examples](https://github.com/odroe/fs/tree/main/examples)
-
-## License
-
-[MIT license](https://github.com/odroe/fs/tree/main/LICENSE).
+TODO: Tell users more about the package: where to find more information, how to 
+contribute to the package, how to file issues, what response they can expect 
+from the package authors, and more.
