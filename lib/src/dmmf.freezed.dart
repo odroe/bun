@@ -3306,6 +3306,7 @@ SchemaArgInputType _$SchemaArgInputTypeFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$SchemaArgInputType {
   bool get isList => throw _privateConstructorUsedError;
+  @_ArgTypeConverter()
   ArgType get type => throw _privateConstructorUsedError;
   FieldLocation get location => throw _privateConstructorUsedError;
   FieldNamespace? get namespace => throw _privateConstructorUsedError;
@@ -3324,7 +3325,7 @@ abstract class $SchemaArgInputTypeCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isList,
-      ArgType type,
+      @_ArgTypeConverter() ArgType type,
       FieldLocation location,
       FieldNamespace? namespace});
 
@@ -3388,7 +3389,7 @@ abstract class _$$_SchemaArgInputTypeCopyWith<$Res>
   @useResult
   $Res call(
       {bool isList,
-      ArgType type,
+      @_ArgTypeConverter() ArgType type,
       FieldLocation location,
       FieldNamespace? namespace});
 
@@ -3438,7 +3439,7 @@ class __$$_SchemaArgInputTypeCopyWithImpl<$Res>
 class _$_SchemaArgInputType implements _SchemaArgInputType {
   const _$_SchemaArgInputType(
       {required this.isList,
-      required this.type,
+      @_ArgTypeConverter() required this.type,
       required this.location,
       this.namespace});
 
@@ -3448,6 +3449,7 @@ class _$_SchemaArgInputType implements _SchemaArgInputType {
   @override
   final bool isList;
   @override
+  @_ArgTypeConverter()
   final ArgType type;
   @override
   final FieldLocation location;
@@ -3495,7 +3497,7 @@ class _$_SchemaArgInputType implements _SchemaArgInputType {
 abstract class _SchemaArgInputType implements SchemaArgInputType {
   const factory _SchemaArgInputType(
       {required final bool isList,
-      required final ArgType type,
+      @_ArgTypeConverter() required final ArgType type,
       required final FieldLocation location,
       final FieldNamespace? namespace}) = _$_SchemaArgInputType;
 
@@ -3505,6 +3507,7 @@ abstract class _SchemaArgInputType implements SchemaArgInputType {
   @override
   bool get isList;
   @override
+  @_ArgTypeConverter()
   ArgType get type;
   @override
   FieldLocation get location;
@@ -4886,6 +4889,7 @@ mixin _$TypeRef {
   bool get isList => throw _privateConstructorUsedError;
   FieldNamespace? get namespace => throw _privateConstructorUsedError;
   FieldLocation get location => throw _privateConstructorUsedError;
+  @_TypeRefTypeJsonConverter()
   TypeRefType get type => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -4902,7 +4906,7 @@ abstract class $TypeRefCopyWith<$Res> {
       {bool isList,
       FieldNamespace? namespace,
       FieldLocation location,
-      TypeRefType type});
+      @_TypeRefTypeJsonConverter() TypeRefType type});
 
   $TypeRefTypeCopyWith<$Res> get type;
 }
@@ -4965,7 +4969,7 @@ abstract class _$$_TypeRefCopyWith<$Res> implements $TypeRefCopyWith<$Res> {
       {bool isList,
       FieldNamespace? namespace,
       FieldLocation location,
-      TypeRefType type});
+      @_TypeRefTypeJsonConverter() TypeRefType type});
 
   @override
   $TypeRefTypeCopyWith<$Res> get type;
@@ -5014,7 +5018,7 @@ class _$_TypeRef implements _TypeRef {
       {required this.isList,
       this.namespace,
       required this.location,
-      required this.type});
+      @_TypeRefTypeJsonConverter() required this.type});
 
   factory _$_TypeRef.fromJson(Map<String, dynamic> json) =>
       _$$_TypeRefFromJson(json);
@@ -5026,6 +5030,7 @@ class _$_TypeRef implements _TypeRef {
   @override
   final FieldLocation location;
   @override
+  @_TypeRefTypeJsonConverter()
   final TypeRefType type;
 
   @override
@@ -5067,10 +5072,11 @@ class _$_TypeRef implements _TypeRef {
 
 abstract class _TypeRef implements TypeRef {
   const factory _TypeRef(
-      {required final bool isList,
-      final FieldNamespace? namespace,
-      required final FieldLocation location,
-      required final TypeRefType type}) = _$_TypeRef;
+          {required final bool isList,
+          final FieldNamespace? namespace,
+          required final FieldLocation location,
+          @_TypeRefTypeJsonConverter() required final TypeRefType type}) =
+      _$_TypeRef;
 
   factory _TypeRef.fromJson(Map<String, dynamic> json) = _$_TypeRef.fromJson;
 
@@ -5081,6 +5087,7 @@ abstract class _TypeRef implements TypeRef {
   @override
   FieldLocation get location;
   @override
+  @_TypeRefTypeJsonConverter()
   TypeRefType get type;
   @override
   @JsonKey(ignore: true)

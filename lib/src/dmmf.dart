@@ -207,7 +207,7 @@ class Deprecation with _$Deprecation {
 class SchemaArgInputType with _$SchemaArgInputType {
   const factory SchemaArgInputType({
     required bool isList,
-    required ArgType type,
+    @_ArgTypeConverter() required ArgType type,
     required FieldLocation location,
     FieldNamespace? namespace,
   }) = _SchemaArgInputType;
@@ -245,6 +245,41 @@ class ArgType with _$ArgType {
 
   factory ArgType.fromJson(Map<String, dynamic> json) =>
       _$ArgTypeFromJson(json);
+}
+
+class _ArgTypeConverter implements JsonConverter<ArgType, Object> {
+  const _ArgTypeConverter();
+
+  String resolveRuntimeType(Object json) {
+    if (json is String) {
+      return 'string';
+    } else if (json is Map) {
+      if (json.containsKey('constraints')) {
+        return 'input';
+      } else if (json.containsKey('values')) {
+        return 'enum_';
+      }
+    }
+
+    throw Exception('Could not resolve runtime type for $json');
+  }
+
+  @override
+  ArgType fromJson(Object json) {
+    return ArgType.fromJson({
+      'value': json,
+      'runtimeType': resolveRuntimeType(json),
+    });
+  }
+
+  @override
+  Object toJson(ArgType object) {
+    return object.when(
+      string: (value) => value,
+      input: (value) => value.toJson(),
+      enum_: (value) => value.toJson(),
+    );
+  }
 }
 
 @freezed
@@ -308,7 +343,7 @@ class TypeRef with _$TypeRef {
     required bool isList,
     FieldNamespace? namespace,
     required FieldLocation location,
-    required TypeRefType type,
+    @_TypeRefTypeJsonConverter() required TypeRefType type,
   }) = _TypeRef;
 
   factory TypeRef.fromJson(Map<String, dynamic> json) =>
@@ -322,8 +357,40 @@ class TypeRefType with _$TypeRefType {
   const factory TypeRefType.outputObjectTypes(OutputType value) =
       OutputTypeTypeRefType;
 
-  factory TypeRefType.fromJson(Map<String, dynamic> json) =>
-      _$TypeRefTypeFromJson(json);
+  factory TypeRefType.fromJson(dynamic json) => _$TypeRefTypeFromJson(json);
+}
+
+class _TypeRefTypeJsonConverter extends JsonConverter<TypeRefType, Object> {
+  const _TypeRefTypeJsonConverter();
+
+  resolverRuntimeType(Object json) {
+    if (json is String) {
+      return 'string';
+    } else if (json is Map && json.containsKey('name')) {
+      if (json.containsKey('fields')) {
+        return 'outputObjectTypes';
+      } else if (json.containsKey('values')) {
+        return 'enum_';
+      }
+    }
+
+    throw Exception('Invalid TypeRefType');
+  }
+
+  @override
+  TypeRefType fromJson(Object json) {
+    return TypeRefType.fromJson({
+      'value': json,
+      'runtimeType': resolverRuntimeType(json),
+    });
+  }
+
+  @override
+  Object toJson(TypeRefType object) => object.when(
+        string: (value) => value,
+        enum_: (value) => value.toJson(),
+        outputObjectTypes: (value) => value.toJson(),
+      );
 }
 
 @freezed
