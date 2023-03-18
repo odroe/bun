@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/odroe/prisma-dmmf/compare/v1.0.1...v1.0.2) (2023-03-18)
+
+
+### Bug Fixes
+
+* fix model mapping one suffix key ([8acc3df](https://github.com/odroe/prisma-dmmf/commit/8acc3df5f7bd66529e426f81780906bc354aec47))
+
 ## [1.0.1](https://github.com/odroe/prisma-dmmf/compare/v1.0.0...v1.0.1) (2023-03-18)
 
 
