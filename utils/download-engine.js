@@ -2,13 +2,19 @@ const { download } = require("@prisma/fetch-engine");
 const { getPlatform } = require("@prisma/get-platform");
 const { enginesVersion } = require("@prisma/engines-version");
 const path = require("path");
+const fs = require("fs");
+
+const storePath = path.join(__dirname, "..", ".dart_tool", "prisma");
+if (!fs.existsSync(storePath)) {
+  fs.mkdirSync(storePath, { recursive: true });
+}
 
 module.exports = async () => {
   const platform = await getPlatform();
   const paths = await download({
     showProgress: true,
     binaries: {
-      "query-engine": path.join(__dirname, "..", "prisma"),
+      "query-engine": storePath,
     },
     version: enginesVersion,
   });
