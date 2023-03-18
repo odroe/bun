@@ -6485,22 +6485,39 @@ ModelMapping _$ModelMappingFromJson(Map<String, dynamic> json) {
 mixin _$ModelMapping {
   String get model => throw _privateConstructorUsedError;
   String? get plural => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get findUnique => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get findUniqueOrThrow => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get findFirst => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get findFirstOrThrow => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get findMany => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get create => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get createMany => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get update => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get updateMany => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get upsert => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get delete => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get deleteMany => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get aggregate => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get groupBy => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get count => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get findRaw => throw _privateConstructorUsedError;
+  @JsonKey(readValue: _oneSuffixReader)
   String? get aggregateRaw => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -6518,23 +6535,23 @@ abstract class $ModelMappingCopyWith<$Res> {
   $Res call(
       {String model,
       String? plural,
-      String? findUnique,
-      String? findUniqueOrThrow,
-      String? findFirst,
-      String? findFirstOrThrow,
-      String? findMany,
-      String? create,
-      String? createMany,
-      String? update,
-      String? updateMany,
-      String? upsert,
-      String? delete,
-      String? deleteMany,
-      String? aggregate,
-      String? groupBy,
-      String? count,
-      String? findRaw,
-      String? aggregateRaw});
+      @JsonKey(readValue: _oneSuffixReader) String? findUnique,
+      @JsonKey(readValue: _oneSuffixReader) String? findUniqueOrThrow,
+      @JsonKey(readValue: _oneSuffixReader) String? findFirst,
+      @JsonKey(readValue: _oneSuffixReader) String? findFirstOrThrow,
+      @JsonKey(readValue: _oneSuffixReader) String? findMany,
+      @JsonKey(readValue: _oneSuffixReader) String? create,
+      @JsonKey(readValue: _oneSuffixReader) String? createMany,
+      @JsonKey(readValue: _oneSuffixReader) String? update,
+      @JsonKey(readValue: _oneSuffixReader) String? updateMany,
+      @JsonKey(readValue: _oneSuffixReader) String? upsert,
+      @JsonKey(readValue: _oneSuffixReader) String? delete,
+      @JsonKey(readValue: _oneSuffixReader) String? deleteMany,
+      @JsonKey(readValue: _oneSuffixReader) String? aggregate,
+      @JsonKey(readValue: _oneSuffixReader) String? groupBy,
+      @JsonKey(readValue: _oneSuffixReader) String? count,
+      @JsonKey(readValue: _oneSuffixReader) String? findRaw,
+      @JsonKey(readValue: _oneSuffixReader) String? aggregateRaw});
 }
 
 /// @nodoc
@@ -6662,23 +6679,23 @@ abstract class _$$_ModelMappingCopyWith<$Res>
   $Res call(
       {String model,
       String? plural,
-      String? findUnique,
-      String? findUniqueOrThrow,
-      String? findFirst,
-      String? findFirstOrThrow,
-      String? findMany,
-      String? create,
-      String? createMany,
-      String? update,
-      String? updateMany,
-      String? upsert,
-      String? delete,
-      String? deleteMany,
-      String? aggregate,
-      String? groupBy,
-      String? count,
-      String? findRaw,
-      String? aggregateRaw});
+      @JsonKey(readValue: _oneSuffixReader) String? findUnique,
+      @JsonKey(readValue: _oneSuffixReader) String? findUniqueOrThrow,
+      @JsonKey(readValue: _oneSuffixReader) String? findFirst,
+      @JsonKey(readValue: _oneSuffixReader) String? findFirstOrThrow,
+      @JsonKey(readValue: _oneSuffixReader) String? findMany,
+      @JsonKey(readValue: _oneSuffixReader) String? create,
+      @JsonKey(readValue: _oneSuffixReader) String? createMany,
+      @JsonKey(readValue: _oneSuffixReader) String? update,
+      @JsonKey(readValue: _oneSuffixReader) String? updateMany,
+      @JsonKey(readValue: _oneSuffixReader) String? upsert,
+      @JsonKey(readValue: _oneSuffixReader) String? delete,
+      @JsonKey(readValue: _oneSuffixReader) String? deleteMany,
+      @JsonKey(readValue: _oneSuffixReader) String? aggregate,
+      @JsonKey(readValue: _oneSuffixReader) String? groupBy,
+      @JsonKey(readValue: _oneSuffixReader) String? count,
+      @JsonKey(readValue: _oneSuffixReader) String? findRaw,
+      @JsonKey(readValue: _oneSuffixReader) String? aggregateRaw});
 }
 
 /// @nodoc
@@ -6799,23 +6816,23 @@ class _$_ModelMapping implements _ModelMapping {
   const _$_ModelMapping(
       {required this.model,
       this.plural,
-      this.findUnique,
-      this.findUniqueOrThrow,
-      this.findFirst,
-      this.findFirstOrThrow,
-      this.findMany,
-      this.create,
-      this.createMany,
-      this.update,
-      this.updateMany,
-      this.upsert,
-      this.delete,
-      this.deleteMany,
-      this.aggregate,
-      this.groupBy,
-      this.count,
-      this.findRaw,
-      this.aggregateRaw});
+      @JsonKey(readValue: _oneSuffixReader) this.findUnique,
+      @JsonKey(readValue: _oneSuffixReader) this.findUniqueOrThrow,
+      @JsonKey(readValue: _oneSuffixReader) this.findFirst,
+      @JsonKey(readValue: _oneSuffixReader) this.findFirstOrThrow,
+      @JsonKey(readValue: _oneSuffixReader) this.findMany,
+      @JsonKey(readValue: _oneSuffixReader) this.create,
+      @JsonKey(readValue: _oneSuffixReader) this.createMany,
+      @JsonKey(readValue: _oneSuffixReader) this.update,
+      @JsonKey(readValue: _oneSuffixReader) this.updateMany,
+      @JsonKey(readValue: _oneSuffixReader) this.upsert,
+      @JsonKey(readValue: _oneSuffixReader) this.delete,
+      @JsonKey(readValue: _oneSuffixReader) this.deleteMany,
+      @JsonKey(readValue: _oneSuffixReader) this.aggregate,
+      @JsonKey(readValue: _oneSuffixReader) this.groupBy,
+      @JsonKey(readValue: _oneSuffixReader) this.count,
+      @JsonKey(readValue: _oneSuffixReader) this.findRaw,
+      @JsonKey(readValue: _oneSuffixReader) this.aggregateRaw});
 
   factory _$_ModelMapping.fromJson(Map<String, dynamic> json) =>
       _$$_ModelMappingFromJson(json);
@@ -6825,38 +6842,55 @@ class _$_ModelMapping implements _ModelMapping {
   @override
   final String? plural;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? findUnique;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? findUniqueOrThrow;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? findFirst;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? findFirstOrThrow;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? findMany;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? create;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? createMany;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? update;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? updateMany;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? upsert;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? delete;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? deleteMany;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? aggregate;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? groupBy;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? count;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? findRaw;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   final String? aggregateRaw;
 
   @override
@@ -6941,25 +6975,26 @@ class _$_ModelMapping implements _ModelMapping {
 
 abstract class _ModelMapping implements ModelMapping {
   const factory _ModelMapping(
-      {required final String model,
-      final String? plural,
-      final String? findUnique,
-      final String? findUniqueOrThrow,
-      final String? findFirst,
-      final String? findFirstOrThrow,
-      final String? findMany,
-      final String? create,
-      final String? createMany,
-      final String? update,
-      final String? updateMany,
-      final String? upsert,
-      final String? delete,
-      final String? deleteMany,
-      final String? aggregate,
-      final String? groupBy,
-      final String? count,
-      final String? findRaw,
-      final String? aggregateRaw}) = _$_ModelMapping;
+          {required final String model,
+          final String? plural,
+          @JsonKey(readValue: _oneSuffixReader) final String? findUnique,
+          @JsonKey(readValue: _oneSuffixReader) final String? findUniqueOrThrow,
+          @JsonKey(readValue: _oneSuffixReader) final String? findFirst,
+          @JsonKey(readValue: _oneSuffixReader) final String? findFirstOrThrow,
+          @JsonKey(readValue: _oneSuffixReader) final String? findMany,
+          @JsonKey(readValue: _oneSuffixReader) final String? create,
+          @JsonKey(readValue: _oneSuffixReader) final String? createMany,
+          @JsonKey(readValue: _oneSuffixReader) final String? update,
+          @JsonKey(readValue: _oneSuffixReader) final String? updateMany,
+          @JsonKey(readValue: _oneSuffixReader) final String? upsert,
+          @JsonKey(readValue: _oneSuffixReader) final String? delete,
+          @JsonKey(readValue: _oneSuffixReader) final String? deleteMany,
+          @JsonKey(readValue: _oneSuffixReader) final String? aggregate,
+          @JsonKey(readValue: _oneSuffixReader) final String? groupBy,
+          @JsonKey(readValue: _oneSuffixReader) final String? count,
+          @JsonKey(readValue: _oneSuffixReader) final String? findRaw,
+          @JsonKey(readValue: _oneSuffixReader) final String? aggregateRaw}) =
+      _$_ModelMapping;
 
   factory _ModelMapping.fromJson(Map<String, dynamic> json) =
       _$_ModelMapping.fromJson;
@@ -6969,38 +7004,55 @@ abstract class _ModelMapping implements ModelMapping {
   @override
   String? get plural;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get findUnique;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get findUniqueOrThrow;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get findFirst;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get findFirstOrThrow;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get findMany;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get create;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get createMany;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get update;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get updateMany;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get upsert;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get delete;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get deleteMany;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get aggregate;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get groupBy;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get count;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get findRaw;
   @override
+  @JsonKey(readValue: _oneSuffixReader)
   String? get aggregateRaw;
   @override
   @JsonKey(ignore: true)

@@ -447,25 +447,42 @@ class ModelMapping with _$ModelMapping {
   const factory ModelMapping({
     required String model,
     String? plural,
-    String? findUnique,
-    String? findUniqueOrThrow,
-    String? findFirst,
-    String? findFirstOrThrow,
-    String? findMany,
-    String? create,
-    String? createMany,
-    String? update,
-    String? updateMany,
-    String? upsert,
-    String? delete,
-    String? deleteMany,
-    String? aggregate,
-    String? groupBy,
-    String? count,
-    String? findRaw,
-    String? aggregateRaw,
+    @JsonKey(readValue: _oneSuffixReader) String? findUnique,
+    @JsonKey(readValue: _oneSuffixReader) String? findUniqueOrThrow,
+    @JsonKey(readValue: _oneSuffixReader) String? findFirst,
+    @JsonKey(readValue: _oneSuffixReader) String? findFirstOrThrow,
+    @JsonKey(readValue: _oneSuffixReader) String? findMany,
+    @JsonKey(readValue: _oneSuffixReader) String? create,
+    @JsonKey(readValue: _oneSuffixReader) String? createMany,
+    @JsonKey(readValue: _oneSuffixReader) String? update,
+    @JsonKey(readValue: _oneSuffixReader) String? updateMany,
+    @JsonKey(readValue: _oneSuffixReader) String? upsert,
+    @JsonKey(readValue: _oneSuffixReader) String? delete,
+    @JsonKey(readValue: _oneSuffixReader) String? deleteMany,
+    @JsonKey(readValue: _oneSuffixReader) String? aggregate,
+    @JsonKey(readValue: _oneSuffixReader) String? groupBy,
+    @JsonKey(readValue: _oneSuffixReader) String? count,
+    @JsonKey(readValue: _oneSuffixReader) String? findRaw,
+    @JsonKey(readValue: _oneSuffixReader) String? aggregateRaw,
   }) = _ModelMapping;
 
   factory ModelMapping.fromJson(Map<String, dynamic> json) =>
       _$ModelMappingFromJson(json);
+}
+
+/// Model mapping `one` suffix reader.
+Object? _oneSuffixReader(Map json, String key) {
+  // If the key is contained in the json, return it.
+  if (json.containsKey(key)) return json[key];
+
+  // If the key + 'One' is contained in the json, return it.
+  if (json.containsKey('${key}One')) return json['${key}One'];
+
+  // If the key suffix is `One`, remove it and return the value.
+  final String suffix = key.substring(key.length - 3).toLowerCase();
+  if (suffix == 'one') {
+    return json[key.substring(0, key.length - 3)];
+  }
+
+  return null;
 }
