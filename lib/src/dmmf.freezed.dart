@@ -6484,7 +6484,7 @@ ModelMapping _$ModelMappingFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ModelMapping {
   String get model => throw _privateConstructorUsedError;
-  String get plural => throw _privateConstructorUsedError;
+  String? get plural => throw _privateConstructorUsedError;
   String? get findUnique => throw _privateConstructorUsedError;
   String? get findUniqueOrThrow => throw _privateConstructorUsedError;
   String? get findFirst => throw _privateConstructorUsedError;
@@ -6517,7 +6517,7 @@ abstract class $ModelMappingCopyWith<$Res> {
   @useResult
   $Res call(
       {String model,
-      String plural,
+      String? plural,
       String? findUnique,
       String? findUniqueOrThrow,
       String? findFirst,
@@ -6551,7 +6551,7 @@ class _$ModelMappingCopyWithImpl<$Res, $Val extends ModelMapping>
   @override
   $Res call({
     Object? model = null,
-    Object? plural = null,
+    Object? plural = freezed,
     Object? findUnique = freezed,
     Object? findUniqueOrThrow = freezed,
     Object? findFirst = freezed,
@@ -6575,10 +6575,10 @@ class _$ModelMappingCopyWithImpl<$Res, $Val extends ModelMapping>
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as String,
-      plural: null == plural
+      plural: freezed == plural
           ? _value.plural
           : plural // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       findUnique: freezed == findUnique
           ? _value.findUnique
           : findUnique // ignore: cast_nullable_to_non_nullable
@@ -6661,7 +6661,7 @@ abstract class _$$_ModelMappingCopyWith<$Res>
   @useResult
   $Res call(
       {String model,
-      String plural,
+      String? plural,
       String? findUnique,
       String? findUniqueOrThrow,
       String? findFirst,
@@ -6693,7 +6693,7 @@ class __$$_ModelMappingCopyWithImpl<$Res>
   @override
   $Res call({
     Object? model = null,
-    Object? plural = null,
+    Object? plural = freezed,
     Object? findUnique = freezed,
     Object? findUniqueOrThrow = freezed,
     Object? findFirst = freezed,
@@ -6717,10 +6717,10 @@ class __$$_ModelMappingCopyWithImpl<$Res>
           ? _value.model
           : model // ignore: cast_nullable_to_non_nullable
               as String,
-      plural: null == plural
+      plural: freezed == plural
           ? _value.plural
           : plural // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       findUnique: freezed == findUnique
           ? _value.findUnique
           : findUnique // ignore: cast_nullable_to_non_nullable
@@ -6798,7 +6798,7 @@ class __$$_ModelMappingCopyWithImpl<$Res>
 class _$_ModelMapping implements _ModelMapping {
   const _$_ModelMapping(
       {required this.model,
-      required this.plural,
+      this.plural,
       this.findUnique,
       this.findUniqueOrThrow,
       this.findFirst,
@@ -6823,7 +6823,7 @@ class _$_ModelMapping implements _ModelMapping {
   @override
   final String model;
   @override
-  final String plural;
+  final String? plural;
   @override
   final String? findUnique;
   @override
@@ -6942,7 +6942,7 @@ class _$_ModelMapping implements _ModelMapping {
 abstract class _ModelMapping implements ModelMapping {
   const factory _ModelMapping(
       {required final String model,
-      required final String plural,
+      final String? plural,
       final String? findUnique,
       final String? findUniqueOrThrow,
       final String? findFirst,
@@ -6967,7 +6967,7 @@ abstract class _ModelMapping implements ModelMapping {
   @override
   String get model;
   @override
-  String get plural;
+  String? get plural;
   @override
   String? get findUnique;
   @override

@@ -446,7 +446,7 @@ class OtherOperationMappings with _$OtherOperationMappings {
 class ModelMapping with _$ModelMapping {
   const factory ModelMapping({
     required String model,
-    required String plural,
+    String? plural,
     String? findUnique,
     String? findUniqueOrThrow,
     String? findFirst,
