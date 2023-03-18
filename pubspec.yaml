@@ -1,6 +1,6 @@
 name: prisma_dmmf
 description: This package contains the Prisma DMMF (Data Model Meta Format) which is a JSON representation of the Prisma schema.
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/odroe/prisma-dmmf
 
 environment:
