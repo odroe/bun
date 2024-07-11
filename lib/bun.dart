@@ -1,9 +1,10 @@
-import 'src/semver.dart';
+import 'dart:convert';
+import 'dart:js_interop';
+
+// ignore: library_prefixes
+import 'src/utils.dart' as Bun;
 
 main() async {
-  final versions = ["1.0.0", "1.0.1", "1.0.0-alpha", "1.0.0-beta", "1.0.0-rc"];
-  print(versions);
-
-  versions.sort(semver.order);
-  print(versions);
+  print(Bun.inspect(Bun.env, colors: true));
+  print(Bun.env['PATH']);
 }
