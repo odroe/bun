@@ -1,3 +1,3 @@
-import { semver } from "bun";
+import { password } from "bun";
 
-// const glob = new Glob("xxx");
+const glob = new Bun("xxx");

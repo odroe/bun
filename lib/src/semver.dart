@@ -1,9 +1,9 @@
-@JS("Bun")
-library;
-
 import 'dart:js_interop';
 
-import '_bun.dart';
+@JS("Bun")
+extension type _Bun._(JSAny _) implements JSAny {
+  external static Semver get semver;
+}
 
 extension type Semver._(JSAny _) implements JSAny {
   @JS('satisfies')
@@ -15,4 +15,4 @@ extension type Semver._(JSAny _) implements JSAny {
   int order(String a, String b) => _order(a, b);
 }
 
-Semver get semver => Bun.semver;
+Semver get semver => _Bun.semver;
