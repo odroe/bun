@@ -40,7 +40,6 @@ extension type Glob._(JSObject _) implements JSObject {
 
   @JS('scanSync')
   external JSIterator<JSString> _scanSync([GlobScanOptions? options]);
-
   Iterable<String> scanSync([GlobScanOptions? options]) sync* {
     final iterator = _scanSync(options);
 
@@ -58,7 +57,6 @@ extension type Glob._(JSObject _) implements JSObject {
 
   @JS('scan')
   external JSAsyncIterator<JSString> _scan([GlobScanOptions? options]);
-
   Stream<String> scan([GlobScanOptions? options]) async* {
     final iterator = _scan(options);
 
@@ -73,5 +71,7 @@ extension type Glob._(JSObject _) implements JSObject {
     }
   }
 
-  external bool match(String str);
+  @JS('match')
+  external bool _match(String str);
+  bool match(String str) => _match(str);
 }

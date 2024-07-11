@@ -387,7 +387,7 @@
       _._iterable = t0;
       _._length = t1;
       _._index = 0;
-      _.__interceptors$_current = null;
+      _._current = null;
       _.$ti = t2;
     },
     JSNumber: function JSNumber() {
@@ -413,8 +413,6 @@
     },
     LateError: function LateError(t0) {
       this._message = t0;
-    },
-    nullFuture_closure: function nullFuture_closure() {
     },
     ListIterator: function ListIterator(t0, t1, t2) {
       var _ = this;
@@ -502,10 +500,10 @@
       var $length, _s5_ = "index";
       if (!A._isInt(index))
         return new A.ArgumentError(true, index, _s5_, null);
-      $length = A._asInt(J.get$length$asx(indexable));
+      $length = J.get$length$asx(indexable);
       if (index < 0 || index >= $length)
-        return A.IndexError$withLength(index, $length, indexable, _s5_);
-      return new A.RangeError(null, null, true, index, _s5_, "Value not in range");
+        return new A.IndexError($length, true, index, _s5_, "Index out of range");
+      return new A.RangeError(true, index, _s5_, "Value not in range");
     },
     wrapException(ex) {
       return A.initializeExceptionWrapper(new Error(), ex);
@@ -929,14 +927,6 @@
       }
       throw A.wrapException(A.ArgumentError$("Field name " + fieldName + " not found.", null));
     },
-    boolConversionCheck(value) {
-      if (value == null)
-        A.assertThrow("boolean expression must not be null");
-      return value;
-    },
-    assertThrow(message) {
-      throw A.wrapException(new A._AssertionError(message));
-    },
     throwCyclicInit(staticName) {
       throw A.wrapException(new A._CyclicInitializationError(staticName));
     },
@@ -1145,9 +1135,6 @@
       this.variableName = t0;
     },
     RuntimeError: function RuntimeError(t0) {
-      this.message = t0;
-    },
-    _AssertionError: function _AssertionError(t0) {
       this.message = t0;
     },
     initHooks_closure: function initHooks_closure(t0) {
@@ -2813,10 +2800,29 @@
       A._awaitOnObject(object, bodyFunction);
     },
     _asyncReturn(object, completer) {
-      completer.complete$1(object);
+      var value, t2,
+        t1 = completer.$ti;
+      t1._eval$1("1/?")._as(object);
+      value = object == null ? t1._precomputed1._as(object) : object;
+      if (!completer.isSync)
+        completer._future._asyncComplete$1(value);
+      else {
+        t2 = completer._future;
+        if (t1._eval$1("Future<1>")._is(value))
+          t2._chainFuture$1(value);
+        else
+          t2._completeWithValue$1(value);
+      }
     },
     _asyncRethrow(object, completer) {
-      completer.completeError$2(A.unwrapException(object), A.getTraceFromException(object));
+      var t1 = A.unwrapException(object),
+        st = A.getTraceFromException(object),
+        t2 = completer.isSync,
+        t3 = completer._future;
+      if (t2)
+        t3._completeError$2(t1, st);
+      else
+        t3._asyncCompleteError$2(t1, st);
     },
     _awaitOnObject(object, bodyFunction) {
       var t1, future,
@@ -2851,85 +2857,6 @@
         };
       }($function, 1);
       return $.Zone__current.registerBinaryCallback$3$1(new A._wrapJsFunctionForAsync_closure($protected), type$.void, type$.int, type$.dynamic);
-    },
-    _asyncStarHelper(object, bodyFunctionOrErrorCode, controller) {
-      var t1, error, stackTrace, t2,
-        _s10_ = "controller";
-      if (bodyFunctionOrErrorCode === 0) {
-        t1 = controller.cancelationFuture;
-        if (t1 != null)
-          t1._completeWithValue$1(null);
-        else {
-          t1 = controller.___AsyncStarStreamController_controller_A;
-          t1 === $ && A.throwLateFieldNI(_s10_);
-          t1.close$0();
-        }
-        return;
-      } else if (bodyFunctionOrErrorCode === 1) {
-        t1 = controller.cancelationFuture;
-        if (t1 != null)
-          t1._completeError$2(A.unwrapException(object), A.getTraceFromException(object));
-        else {
-          error = A.unwrapException(object);
-          stackTrace = A.getTraceFromException(object);
-          t1 = controller.___AsyncStarStreamController_controller_A;
-          t1 === $ && A.throwLateFieldNI(_s10_);
-          A.checkNotNullable(error, "error", type$.Object);
-          if (t1._state >= 4)
-            A.throwExpression(t1._badEventState$0());
-          t1._addError$2(error, stackTrace);
-          controller.___AsyncStarStreamController_controller_A.close$0();
-        }
-        return;
-      }
-      type$.void_Function_int_dynamic._as(bodyFunctionOrErrorCode);
-      if (object instanceof A._IterationMarker) {
-        if (controller.cancelationFuture != null) {
-          bodyFunctionOrErrorCode.call$2(2, null);
-          return;
-        }
-        t1 = object.state;
-        if (t1 === 0) {
-          t1 = object.value;
-          t2 = controller.___AsyncStarStreamController_controller_A;
-          t2 === $ && A.throwLateFieldNI(_s10_);
-          t1 = A._instanceType(t2)._precomputed1._as(controller.$ti._precomputed1._as(t1));
-          if (t2._state >= 4)
-            A.throwExpression(t2._badEventState$0());
-          t2._add$1(t1);
-          A.scheduleMicrotask(new A._asyncStarHelper_closure(controller, bodyFunctionOrErrorCode));
-          return;
-        } else if (t1 === 1) {
-          t1 = controller.$ti._eval$1("Stream<1>")._as(type$.Stream_dynamic._as(object.value));
-          t2 = controller.___AsyncStarStreamController_controller_A;
-          t2 === $ && A.throwLateFieldNI(_s10_);
-          t2.addStream$2$cancelOnError(t1, false).then$1$1(new A._asyncStarHelper_closure0(controller, bodyFunctionOrErrorCode), type$.Null);
-          return;
-        }
-      }
-      A._awaitOnObject(object, bodyFunctionOrErrorCode);
-    },
-    _streamOfController(controller) {
-      var t1 = controller.___AsyncStarStreamController_controller_A;
-      t1 === $ && A.throwLateFieldNI("controller");
-      return new A._ControllerStream(t1, A._instanceType(t1)._eval$1("_ControllerStream<1>"));
-    },
-    _AsyncStarStreamController$(body, $T) {
-      var t1 = new A._AsyncStarStreamController($T._eval$1("_AsyncStarStreamController<0>"));
-      t1._AsyncStarStreamController$1(body, $T);
-      return t1;
-    },
-    _makeAsyncStarStreamController(body, $T) {
-      return A._AsyncStarStreamController$(body, $T);
-    },
-    _IterationMarker_yieldStar(values) {
-      return new A._IterationMarker(values, 1);
-    },
-    _IterationMarker_yieldSingle(value) {
-      return new A._IterationMarker(value, 0);
-    },
-    _SyncStarIterator__terminatedBody(_1, _2, _3) {
-      return 0;
     },
     AsyncError$(error, stackTrace) {
       var t1 = A.checkNotNullable(error, "error", type$.Object);
@@ -3152,34 +3079,8 @@
       A._rootScheduleMicrotask(_null, _null, currentZone, type$.void_Function._as(currentZone.bindCallbackGuarded$1(callback)));
     },
     StreamIterator_StreamIterator(stream, $T) {
-      return new A._StreamIterator(A.checkNotNullable(stream, "stream", type$.Object), $T._eval$1("_StreamIterator<0>"));
-    },
-    _runGuarded(notificationHandler) {
-      var e, s, exception;
-      if (notificationHandler == null)
-        return;
-      try {
-        notificationHandler.call$0();
-      } catch (exception) {
-        e = A.unwrapException(exception);
-        s = A.getTraceFromException(exception);
-        A._rootHandleError(type$.Object._as(e), type$.StackTrace._as(s));
-      }
-    },
-    _AddStreamState_makeErrorHandler(controller) {
-      return new A._AddStreamState_makeErrorHandler_closure(controller);
-    },
-    _BufferingStreamSubscription__registerErrorHandler(zone, handleError) {
-      if (handleError == null)
-        handleError = A.async___nullErrorHandler$closure();
-      if (type$.void_Function_Object_StackTrace._is(handleError))
-        return zone.registerBinaryCallback$3$1(handleError, type$.dynamic, type$.Object, type$.StackTrace);
-      if (type$.void_Function_Object._is(handleError))
-        return type$.dynamic_Function_Object._as(handleError);
-      throw A.wrapException(A.ArgumentError$("handleError callback must take either an Object (the error), or both an Object (the error) and a StackTrace.", null));
-    },
-    _nullErrorHandler(error, stackTrace) {
-      A._rootHandleError(error, stackTrace);
+      A.checkNotNullable(stream, "stream", type$.Object);
+      return new A._StreamIterator($T._eval$1("_StreamIterator<0>"));
     },
     _rootHandleError(error, stackTrace) {
       A._schedulePriorityAsyncCallback(new A._rootHandleError_closure(error, stackTrace));
@@ -3266,64 +3167,9 @@
     _wrapJsFunctionForAsync_closure: function _wrapJsFunctionForAsync_closure(t0) {
       this.$protected = t0;
     },
-    _asyncStarHelper_closure: function _asyncStarHelper_closure(t0, t1) {
-      this.controller = t0;
-      this.bodyFunction = t1;
-    },
-    _asyncStarHelper_closure0: function _asyncStarHelper_closure0(t0, t1) {
-      this.controller = t0;
-      this.bodyFunction = t1;
-    },
-    _AsyncStarStreamController: function _AsyncStarStreamController(t0) {
-      var _ = this;
-      _.___AsyncStarStreamController_controller_A = $;
-      _.isSuspended = false;
-      _.cancelationFuture = null;
-      _.$ti = t0;
-    },
-    _AsyncStarStreamController__resumeBody: function _AsyncStarStreamController__resumeBody(t0) {
-      this.body = t0;
-    },
-    _AsyncStarStreamController__resumeBody_closure: function _AsyncStarStreamController__resumeBody_closure(t0) {
-      this.body = t0;
-    },
-    _AsyncStarStreamController_closure: function _AsyncStarStreamController_closure(t0) {
-      this._resumeBody = t0;
-    },
-    _AsyncStarStreamController_closure0: function _AsyncStarStreamController_closure0(t0, t1) {
-      this.$this = t0;
-      this._resumeBody = t1;
-    },
-    _AsyncStarStreamController_closure1: function _AsyncStarStreamController_closure1(t0, t1) {
-      this.$this = t0;
-      this.body = t1;
-    },
-    _AsyncStarStreamController__closure: function _AsyncStarStreamController__closure(t0) {
-      this.body = t0;
-    },
-    _IterationMarker: function _IterationMarker(t0, t1) {
-      this.value = t0;
-      this.state = t1;
-    },
-    _SyncStarIterator: function _SyncStarIterator(t0, t1) {
-      var _ = this;
-      _._body = t0;
-      _._suspendedBodies = _._nestedIterator = _._datum = _._current = null;
-      _.$ti = t1;
-    },
-    _SyncStarIterable: function _SyncStarIterable(t0, t1) {
-      this._outerHelper = t0;
-      this.$ti = t1;
-    },
     AsyncError: function AsyncError(t0, t1) {
       this.error = t0;
       this.stackTrace = t1;
-    },
-    _Completer: function _Completer() {
-    },
-    _AsyncCompleter: function _AsyncCompleter(t0, t1) {
-      this.future = t0;
-      this.$ti = t1;
     },
     _FutureListener: function _FutureListener(t0, t1, t2, t3, t4) {
       var _ = this;
@@ -3393,109 +3239,8 @@
       this.callback = t0;
       this.next = null;
     },
-    Stream: function Stream() {
-    },
-    Stream_length_closure: function Stream_length_closure(t0, t1) {
-      this._box_0 = t0;
-      this.$this = t1;
-    },
-    Stream_length_closure0: function Stream_length_closure0(t0, t1) {
-      this._box_0 = t0;
-      this.future = t1;
-    },
-    _StreamController: function _StreamController() {
-    },
-    _StreamController__subscribe_closure: function _StreamController__subscribe_closure(t0) {
-      this.$this = t0;
-    },
-    _StreamController__recordCancel_complete: function _StreamController__recordCancel_complete(t0) {
-      this.$this = t0;
-    },
-    _AsyncStreamControllerDispatch: function _AsyncStreamControllerDispatch() {
-    },
-    _AsyncStreamController: function _AsyncStreamController(t0, t1, t2, t3, t4) {
-      var _ = this;
-      _._varData = null;
-      _._state = 0;
-      _._doneFuture = null;
-      _.onListen = t0;
-      _.onPause = t1;
-      _.onResume = t2;
-      _.onCancel = t3;
-      _.$ti = t4;
-    },
-    _ControllerStream: function _ControllerStream(t0, t1) {
-      this._controller = t0;
-      this.$ti = t1;
-    },
-    _ControllerSubscription: function _ControllerSubscription(t0, t1, t2, t3, t4, t5, t6) {
-      var _ = this;
-      _._controller = t0;
-      _._onData = t1;
-      _._onError = t2;
-      _._onDone = t3;
-      _._zone = t4;
-      _._state = t5;
-      _._pending = _._cancelFuture = null;
-      _.$ti = t6;
-    },
-    _AddStreamState: function _AddStreamState() {
-    },
-    _AddStreamState_makeErrorHandler_closure: function _AddStreamState_makeErrorHandler_closure(t0) {
-      this.controller = t0;
-    },
-    _AddStreamState_cancel_closure: function _AddStreamState_cancel_closure(t0) {
-      this.$this = t0;
-    },
-    _StreamControllerAddStreamState: function _StreamControllerAddStreamState(t0, t1, t2, t3) {
-      var _ = this;
-      _._varData = t0;
-      _.addStreamFuture = t1;
-      _.addSubscription = t2;
-      _.$ti = t3;
-    },
-    _BufferingStreamSubscription: function _BufferingStreamSubscription() {
-    },
-    _BufferingStreamSubscription__sendError_sendError: function _BufferingStreamSubscription__sendError_sendError(t0, t1, t2) {
-      this.$this = t0;
-      this.error = t1;
-      this.stackTrace = t2;
-    },
-    _BufferingStreamSubscription__sendDone_sendDone: function _BufferingStreamSubscription__sendDone_sendDone(t0) {
-      this.$this = t0;
-    },
-    _StreamImpl: function _StreamImpl() {
-    },
-    _DelayedEvent: function _DelayedEvent() {
-    },
-    _DelayedData: function _DelayedData(t0, t1) {
-      this.value = t0;
-      this.next = null;
-      this.$ti = t1;
-    },
-    _DelayedError: function _DelayedError(t0, t1) {
-      this.error = t0;
-      this.stackTrace = t1;
-      this.next = null;
-    },
-    _DelayedDone: function _DelayedDone() {
-    },
-    _PendingEvents: function _PendingEvents(t0) {
-      var _ = this;
-      _._state = 0;
-      _.lastPendingEvent = _.firstPendingEvent = null;
-      _.$ti = t0;
-    },
-    _PendingEvents_schedule_closure: function _PendingEvents_schedule_closure(t0, t1) {
-      this.$this = t0;
-      this.dispatch = t1;
-    },
-    _StreamIterator: function _StreamIterator(t0, t1) {
-      var _ = this;
-      _._subscription = null;
-      _._stateData = t0;
-      _._async$_hasValue = false;
-      _.$ti = t1;
+    _StreamIterator: function _StreamIterator(t0) {
+      this.$ti = t0;
     },
     _Zone: function _Zone() {
     },
@@ -3555,39 +3300,14 @@
     ArgumentError$value(value, $name, message) {
       return new A.ArgumentError(true, value, $name, message);
     },
-    IndexError$withLength(invalidValue, $length, indexable, $name) {
-      return new A.IndexError($length, true, invalidValue, $name, "Index out of range");
-    },
     UnsupportedError$(message) {
       return new A.UnsupportedError(message);
     },
     UnimplementedError$(message) {
       return new A.UnimplementedError(message);
     },
-    StateError$(message) {
-      return new A.StateError(message);
-    },
     ConcurrentModificationError$(modifiedObject) {
       return new A.ConcurrentModificationError(modifiedObject);
-    },
-    Iterable_iterableToShortString(iterable, leftDelimiter, rightDelimiter) {
-      var parts, t1;
-      if (A.isToStringVisiting(iterable)) {
-        if (leftDelimiter === "(" && rightDelimiter === ")")
-          return "(...)";
-        return leftDelimiter + "..." + rightDelimiter;
-      }
-      parts = A._setArrayType([], type$.JSArray_String);
-      B.JSArray_methods.add$1($.toStringVisiting, iterable);
-      try {
-        A._iterablePartsToStrings(iterable, parts);
-      } finally {
-        if (0 >= $.toStringVisiting.length)
-          return A.ioore($.toStringVisiting, -1);
-        $.toStringVisiting.pop();
-      }
-      t1 = A.StringBuffer__writeAll(leftDelimiter, type$.Iterable_dynamic._as(parts), ", ") + rightDelimiter;
-      return t1.charCodeAt(0) == 0 ? t1 : t1;
     },
     Iterable_iterableToFullString(iterable, leftDelimiter, rightDelimiter) {
       var buffer, t1;
@@ -3607,97 +3327,6 @@
       t1 = buffer._contents;
       return t1.charCodeAt(0) == 0 ? t1 : t1;
     },
-    _iterablePartsToStrings(iterable, parts) {
-      var $length, count, t2, next, ultimateString, penultimateString, penultimate, ultimate, ultimate0, elision,
-        t1 = iterable.$ti,
-        it = new A._SyncStarIterator(iterable._outerHelper(), t1._eval$1("_SyncStarIterator<1>"));
-      t1 = t1._precomputed1;
-      $length = 0;
-      count = 0;
-      while (true) {
-        if (!($length < 80 || count < 3))
-          break;
-        if (!it.moveNext$0())
-          return;
-        t2 = it._current;
-        next = A.S(t2 == null ? t1._as(t2) : t2);
-        B.JSArray_methods.add$1(parts, next);
-        $length += next.length + 2;
-        ++count;
-      }
-      if (!it.moveNext$0()) {
-        if (count <= 5)
-          return;
-        if (0 >= parts.length)
-          return A.ioore(parts, -1);
-        ultimateString = parts.pop();
-        if (0 >= parts.length)
-          return A.ioore(parts, -1);
-        penultimateString = parts.pop();
-      } else {
-        penultimate = it._current;
-        if (penultimate == null)
-          penultimate = t1._as(penultimate);
-        ++count;
-        if (!it.moveNext$0()) {
-          if (count <= 4) {
-            B.JSArray_methods.add$1(parts, A.S(penultimate));
-            return;
-          }
-          ultimateString = A.S(penultimate);
-          if (0 >= parts.length)
-            return A.ioore(parts, -1);
-          penultimateString = parts.pop();
-          $length += ultimateString.length + 2;
-        } else {
-          ultimate = it._current;
-          if (ultimate == null)
-            ultimate = t1._as(ultimate);
-          ++count;
-          for (; it.moveNext$0(); penultimate = ultimate, ultimate = ultimate0) {
-            ultimate0 = it._current;
-            if (ultimate0 == null)
-              ultimate0 = t1._as(ultimate0);
-            ++count;
-            if (count > 100) {
-              while (true) {
-                if (!($length > 75 && count > 3))
-                  break;
-                if (0 >= parts.length)
-                  return A.ioore(parts, -1);
-                $length -= parts.pop().length + 2;
-                --count;
-              }
-              B.JSArray_methods.add$1(parts, "...");
-              return;
-            }
-          }
-          penultimateString = A.S(penultimate);
-          ultimateString = A.S(ultimate);
-          $length += ultimateString.length + penultimateString.length + 4;
-        }
-      }
-      if (count > parts.length + 2) {
-        $length += 5;
-        elision = "...";
-      } else
-        elision = null;
-      while (true) {
-        if (!($length > 80 && parts.length > 3))
-          break;
-        if (0 >= parts.length)
-          return A.ioore(parts, -1);
-        $length -= parts.pop().length + 2;
-        if (elision == null) {
-          $length += 5;
-          elision = "...";
-        }
-      }
-      if (elision != null)
-        B.JSArray_methods.add$1(parts, elision);
-      B.JSArray_methods.add$1(parts, penultimateString);
-      B.JSArray_methods.add$1(parts, ultimateString);
-    },
     print(object) {
       A.printString(A.S(object));
     },
@@ -3715,14 +3344,12 @@
       _.name = t2;
       _.message = t3;
     },
-    RangeError: function RangeError(t0, t1, t2, t3, t4, t5) {
+    RangeError: function RangeError(t0, t1, t2, t3) {
       var _ = this;
-      _.start = t0;
-      _.end = t1;
-      _._hasValue = t2;
-      _.invalidValue = t3;
-      _.name = t4;
-      _.message = t5;
+      _._hasValue = t0;
+      _.invalidValue = t1;
+      _.name = t2;
+      _.message = t3;
     },
     IndexError: function IndexError(t0, t1, t2, t3, t4) {
       var _ = this;
@@ -3738,9 +3365,6 @@
     UnimplementedError: function UnimplementedError(t0) {
       this.message = t0;
     },
-    StateError: function StateError(t0) {
-      this.message = t0;
-    },
     ConcurrentModificationError: function ConcurrentModificationError(t0) {
       this.modifiedObject = t0;
     },
@@ -3748,8 +3372,6 @@
     },
     _Exception: function _Exception(t0) {
       this.message = t0;
-    },
-    Iterable: function Iterable() {
     },
     Null: function Null() {
     },
@@ -3760,21 +3382,11 @@
     StringBuffer: function StringBuffer(t0) {
       this._contents = t0;
     },
-    promiseToFuture(jsPromise, $T) {
-      var t1 = new A._Future($.Zone__current, $T._eval$1("_Future<0>")),
-        completer = new A._AsyncCompleter(t1, $T._eval$1("_AsyncCompleter<0>"));
-      jsPromise.then(A.convertDartClosureToJS(new A.promiseToFuture_closure(completer, $T), 1), A.convertDartClosureToJS(new A.promiseToFuture_closure0(completer), 1));
-      return t1;
+    Semver_get_order(_this) {
+      return new A.Semver_get_order_closure(_this);
     },
-    promiseToFuture_closure: function promiseToFuture_closure(t0, t1) {
-      this.completer = t0;
-      this.T = t1;
-    },
-    promiseToFuture_closure0: function promiseToFuture_closure0(t0) {
-      this.completer = t0;
-    },
-    NullRejectionException: function NullRejectionException(t0) {
-      this.isUndefined = t0;
+    Semver_get_order_closure: function Semver_get_order_closure(t0) {
+      this._this = t0;
     },
     printString(string) {
       if (typeof dartPrint == "function") {
@@ -3791,197 +3403,29 @@
       }
       throw "Unable to print message: " + String(string);
     },
-    throwLateFieldNI(fieldName) {
-      A.throwExpressionWithWrapper(new A.LateError("Field '" + fieldName + "' has not been initialized."), new Error());
-    },
     throwLateFieldADI(fieldName) {
       A.throwExpressionWithWrapper(new A.LateError("Field '" + fieldName + "' has been assigned during initialization."), new Error());
     },
     main() {
       var $async$goto = 0,
         $async$completer = A._makeAsyncAwaitCompleter(type$.dynamic),
-        $async$handler = 1, $async$currentError, $async$next = [], value, t1, t2, t3, glob, $async$temp1;
+        versions;
       var $async$main = A._wrapJsFunctionForAsync(function($async$errorCode, $async$result) {
-        if ($async$errorCode === 1) {
-          $async$currentError = $async$result;
-          $async$goto = $async$handler;
-        }
+        if ($async$errorCode === 1)
+          return A._asyncRethrow($async$result, $async$completer);
         while (true)
           switch ($async$goto) {
             case 0:
               // Function start
-              glob = type$.JSObject._as(new self.Bun.Glob("????.ts"));
-              for (t1 = A.Glob_scanSync(glob), t2 = t1.$ti, t1 = new A._SyncStarIterator(t1._outerHelper(), t2._eval$1("_SyncStarIterator<1>")), t2 = t2._precomputed1; t1.moveNext$0();) {
-                t3 = t1._current;
-                A.printString(t3 == null ? t2._as(t3) : t3);
-              }
-              t1 = new A._StreamIterator(A.checkNotNullable(A.Glob_scan(glob), "stream", type$.Object), type$._StreamIterator_String);
-              $async$handler = 2;
-            case 5:
-              // for condition
-              $async$temp1 = A;
-              $async$goto = 7;
-              return A._asyncAwait(t1.moveNext$0(), $async$main);
-            case 7:
-              // returning from await.
-              if (!$async$temp1.boolConversionCheck($async$result)) {
-                // goto after for
-                $async$goto = 6;
-                break;
-              }
-              value = t1.get$current();
-              A.printString(A.S(value));
-              // goto for condition
-              $async$goto = 5;
-              break;
-            case 6:
-              // after for
-              $async$next.push(4);
-              // goto finally
-              $async$goto = 3;
-              break;
-            case 2:
-              // uncaught
-              $async$next = [1];
-            case 3:
-              // finally
-              $async$handler = 1;
-              $async$goto = 8;
-              return A._asyncAwait(t1.cancel$0(), $async$main);
-            case 8:
-              // returning from await.
-              // goto the next finally handler
-              $async$goto = $async$next.pop();
-              break;
-            case 4:
-              // after finally
-              A.print(A._asBool(glob.match("demo.ts")));
-              A.print(A._asBool(glob.match("haha.ts")));
-              A.print(A._asBool(glob.match("demo1.ts")));
+              versions = A._setArrayType(["1.0.0", "1.0.1", "1.0.0-alpha", "1.0.0-beta", "1.0.0-rc"], type$.JSArray_String);
+              A.print(versions);
+              B.JSArray_methods.sort$1(versions, A.Semver_get_order(type$.Object._as(self.Bun.semver)));
+              A.print(versions);
               // implicit return
               return A._asyncReturn(null, $async$completer);
-            case 1:
-              // rethrow
-              return A._asyncRethrow($async$currentError, $async$completer);
           }
       });
       return A._asyncStartSync($async$main, $async$completer);
-    },
-    Glob_scanSync(_this) {
-      return new A._SyncStarIterable(A.Glob_scanSync$body(_this), type$._SyncStarIterable_String);
-    },
-    Glob_scanSync$body($async$_this) {
-      return function() {
-        var _this = $async$_this;
-        var $async$goto = 0, $async$handler = 1, $async$currentError, t1, current, t2, iterator;
-        return function $async$Glob_scanSync($async$iterator, $async$errorCode, $async$result) {
-          if ($async$errorCode === 1) {
-            $async$currentError = $async$result;
-            $async$goto = $async$handler;
-          }
-          while (true)
-            switch ($async$goto) {
-              case 0:
-                // Function start
-                iterator = type$.Object._as(_this.scanSync(null));
-                t1 = type$.JSObject;
-              case 2:
-                // for condition
-                // trivial condition
-                current = t1._as(iterator.next());
-                $async$goto = A._asBoolQ(current.done) === false && A._asStringQ(current.value) != null ? 4 : 5;
-                break;
-              case 4:
-                // then
-                t2 = A._asStringQ(current.value);
-                t2.toString;
-                $async$goto = 6;
-                return $async$iterator._current = t2, 1;
-              case 6:
-                // after yield
-                // goto for condition
-                $async$goto = 2;
-                break;
-              case 5:
-                // join
-                // goto after for
-                $async$goto = 3;
-                break;
-                // goto for condition
-                $async$goto = 2;
-                break;
-              case 3:
-                // after for
-                // implicit return
-                return 0;
-              case 1:
-                // rethrow
-                return $async$iterator._datum = $async$currentError, 3;
-            }
-        };
-      };
-    },
-    Glob_scan(_this) {
-      var $async$Glob_scan = A._wrapJsFunctionForAsync(function($async$errorCode, $async$result) {
-        switch ($async$errorCode) {
-          case 2:
-            $async$next = $async$nextWhenCanceled;
-            $async$goto = $async$next.pop();
-            break;
-          case 1:
-            $async$currentError = $async$result;
-            $async$goto = $async$handler;
-        }
-        while (true)
-          switch ($async$goto) {
-            case 0:
-              // Function start
-              iterator = type$.Object._as(_this.scan(null));
-              t1 = type$.JSObject;
-            case 3:
-              // for condition
-              // trivial condition
-              $async$goto = 5;
-              return A._asyncStarHelper(A.promiseToFuture(t1._as(iterator.next()), t1), $async$Glob_scan, $async$controller);
-            case 5:
-              // returning from await.
-              current = $async$result;
-              $async$goto = A._asBoolQ(current.done) === false && A._asStringQ(current.value) != null ? 6 : 7;
-              break;
-            case 6:
-              // then
-              t2 = A._asStringQ(current.value);
-              t2.toString;
-              $async$goto = 8;
-              $async$nextWhenCanceled = [1];
-              return A._asyncStarHelper(A._IterationMarker_yieldSingle(t2), $async$Glob_scan, $async$controller);
-            case 8:
-              // after yield
-              // goto for condition
-              $async$goto = 3;
-              break;
-            case 7:
-              // join
-              // goto after for
-              $async$goto = 4;
-              break;
-              // goto for condition
-              $async$goto = 3;
-              break;
-            case 4:
-              // after for
-            case 1:
-              // return
-              return A._asyncStarHelper(null, 0, $async$controller);
-            case 2:
-              // rethrow
-              return A._asyncStarHelper($async$currentError, 1, $async$controller);
-          }
-      });
-      var $async$goto = 0,
-        $async$controller = A._makeAsyncStarStreamController($async$Glob_scan, type$.String),
-        $async$nextWhenCanceled, $async$handler = 2, $async$currentError, $async$next = [], t1, current, t2, iterator;
-      return A._streamOfController($async$controller);
     }
   },
   B = {};
@@ -4013,7 +3457,7 @@
     $isTrustedGetRuntimeType: 1,
     $isNull: 1
   };
-  J.JavaScriptObject.prototype = {$isJSObject: 1};
+  J.JavaScriptObject.prototype = {};
   J.LegacyJavaScriptObject.prototype = {
     toString$0(receiver) {
       return String(receiver);
@@ -4047,6 +3491,50 @@
         A.throwExpression(A.UnsupportedError$("add"));
       receiver.push(value);
     },
+    sort$1(receiver, compare) {
+      var len, a, b, undefineds, i,
+        t1 = A._arrayInstanceType(receiver);
+      t1._eval$1("int(1,1)?")._as(compare);
+      if (!!receiver.immutable$list)
+        A.throwExpression(A.UnsupportedError$("sort"));
+      len = receiver.length;
+      if (len < 2)
+        return;
+      if (len === 2) {
+        a = receiver[0];
+        b = receiver[1];
+        t1 = compare.call$2(a, b);
+        if (typeof t1 !== "number")
+          return t1.$gt();
+        if (t1 > 0) {
+          receiver[0] = b;
+          receiver[1] = a;
+        }
+        return;
+      }
+      if (t1._precomputed1._is(null)) {
+        for (undefineds = 0, i = 0; i < receiver.length; ++i)
+          if (receiver[i] === void 0) {
+            receiver[i] = null;
+            ++undefineds;
+          }
+      } else
+        undefineds = 0;
+      receiver.sort(A.convertDartClosureToJS(compare, 2));
+      if (undefineds > 0)
+        this._replaceSomeNullsWithUndefined$1(receiver, undefineds);
+    },
+    _replaceSomeNullsWithUndefined$1(receiver, count) {
+      var i0,
+        i = receiver.length;
+      for (; i0 = i - 1, i > 0; i = i0)
+        if (receiver[i0] === null) {
+          receiver[i0] = void 0;
+          --count;
+          if (count === 0)
+            break;
+        }
+    },
     toString$0(receiver) {
       return A.Iterable_iterableToFullString(receiver, "[", "]");
     },
@@ -4056,13 +3544,12 @@
     get$length(receiver) {
       return receiver.length;
     },
-    $isIterable: 1,
-    $isList: 1
+    $isIterable: 1
   };
   J.JSUnmodifiableArray.prototype = {};
   J.ArrayIterator.prototype = {
     get$current() {
-      var t1 = this.__interceptors$_current;
+      var t1 = this._current;
       return t1 == null ? this.$ti._precomputed1._as(t1) : t1;
     },
     moveNext$0() {
@@ -4075,17 +3562,16 @@
       }
       t2 = _this._index;
       if (t2 >= $length) {
-        _this.set$__interceptors$_current(null);
+        _this.set$_current(null);
         return false;
       }
-      _this.set$__interceptors$_current(t1[t2]);
+      _this.set$_current(t1[t2]);
       ++_this._index;
       return true;
     },
-    set$__interceptors$_current(_current) {
-      this.__interceptors$_current = this.$ti._eval$1("1?")._as(_current);
-    },
-    $isIterator: 1
+    set$_current(_current) {
+      this._current = this.$ti._eval$1("1?")._as(_current);
+    }
   };
   J.JSNumber.prototype = {
     toString$0(receiver) {
@@ -4147,14 +3633,6 @@
       return "LateInitializationError: " + this._message;
     }
   };
-  A.nullFuture_closure.prototype = {
-    call$0() {
-      var t1 = new A._Future($.Zone__current, type$._Future_Null);
-      t1._asyncComplete$1(null);
-      return t1;
-    },
-    $signature: 8
-  };
   A.ListIterator.prototype = {
     get$current() {
       var t1 = this.__internal$_current;
@@ -4178,8 +3656,7 @@
     },
     set$__internal$_current(_current) {
       this.__internal$_current = this.$ti._eval$1("1?")._as(_current);
-    },
-    $isIterator: 1
+    }
   };
   A.FixedLengthListMixin.prototype = {};
   A.TypeErrorDecoder.prototype = {
@@ -4289,28 +3766,23 @@
       return "RuntimeError: " + this.message;
     }
   };
-  A._AssertionError.prototype = {
-    toString$0(_) {
-      return "Assertion failed: " + A.Error_safeToString(this.message);
-    }
-  };
   A.initHooks_closure.prototype = {
     call$1(o) {
       return this.getTag(o);
     },
-    $signature: 9
+    $signature: 4
   };
   A.initHooks_closure0.prototype = {
     call$2(o, tag) {
       return this.getUnknownTag(o, tag);
     },
-    $signature: 10
+    $signature: 5
   };
   A.initHooks_closure1.prototype = {
     call$1(tag) {
       return this.prototypeForTag(A._asString(tag));
     },
-    $signature: 11
+    $signature: 6
   };
   A.NativeByteBuffer.prototype = {
     get$runtimeType(receiver) {
@@ -4336,10 +3808,9 @@
       A._checkValidIndex(index, receiver, receiver.length);
       return receiver[index];
     },
-    $isIterable: 1,
-    $isList: 1
+    $isIterable: 1
   };
-  A.NativeTypedArrayOfInt.prototype = {$isIterable: 1, $isList: 1};
+  A.NativeTypedArrayOfInt.prototype = {$isIterable: 1};
   A.NativeFloat32List.prototype = {
     get$runtimeType(receiver) {
       return B.Type_Float32List_Ymk;
@@ -4459,7 +3930,7 @@
       t1.storedCallback = null;
       f.call$0();
     },
-    $signature: 3
+    $signature: 2
   };
   A._AsyncRun__initializeScheduleImmediate_closure.prototype = {
     call$1(callback) {
@@ -4469,19 +3940,19 @@
       t2 = this.span;
       t1.firstChild ? t1.removeChild(t2) : t1.appendChild(t2);
     },
-    $signature: 12
+    $signature: 7
   };
   A._AsyncRun__scheduleImmediateJsOverride_internalCallback.prototype = {
     call$0() {
       this.callback.call$0();
     },
-    $signature: 1
+    $signature: 3
   };
   A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback.prototype = {
     call$0() {
       this.callback.call$0();
     },
-    $signature: 1
+    $signature: 3
   };
   A._TimerImpl.prototype = {
     _TimerImpl$2(milliseconds, callback) {
@@ -4497,241 +3968,24 @@
     },
     $signature: 0
   };
-  A._AsyncAwaitCompleter.prototype = {
-    complete$1(value) {
-      var t2, _this = this,
-        t1 = _this.$ti;
-      t1._eval$1("1/?")._as(value);
-      if (value == null)
-        value = t1._precomputed1._as(value);
-      if (!_this.isSync)
-        _this._future._asyncComplete$1(value);
-      else {
-        t2 = _this._future;
-        if (t1._eval$1("Future<1>")._is(value))
-          t2._chainFuture$1(value);
-        else
-          t2._completeWithValue$1(value);
-      }
-    },
-    completeError$2(e, st) {
-      var t1 = this._future;
-      if (this.isSync)
-        t1._completeError$2(e, st);
-      else
-        t1._asyncCompleteError$2(e, st);
-    }
-  };
+  A._AsyncAwaitCompleter.prototype = {};
   A._awaitOnObject_closure.prototype = {
     call$1(result) {
       return this.bodyFunction.call$2(0, result);
     },
-    $signature: 4
+    $signature: 8
   };
   A._awaitOnObject_closure0.prototype = {
     call$2(error, stackTrace) {
       this.bodyFunction.call$2(1, new A.ExceptionAndStackTrace(error, type$.StackTrace._as(stackTrace)));
     },
-    $signature: 13
+    $signature: 9
   };
   A._wrapJsFunctionForAsync_closure.prototype = {
     call$2(errorCode, result) {
       this.$protected(A._asInt(errorCode), result);
     },
-    $signature: 14
-  };
-  A._asyncStarHelper_closure.prototype = {
-    call$0() {
-      var t3,
-        t1 = this.controller,
-        t2 = t1.___AsyncStarStreamController_controller_A;
-      t2 === $ && A.throwLateFieldNI("controller");
-      t3 = t2._state;
-      if ((t3 & 1) !== 0 ? (t2.get$_subscription()._state & 4) !== 0 : (t3 & 2) === 0) {
-        t1.isSuspended = true;
-        return;
-      }
-      t1 = t1.cancelationFuture != null ? 2 : 0;
-      this.bodyFunction.call$2(t1, null);
-    },
-    $signature: 0
-  };
-  A._asyncStarHelper_closure0.prototype = {
-    call$1(_) {
-      var errorCode = this.controller.cancelationFuture != null ? 2 : 0;
-      this.bodyFunction.call$2(errorCode, null);
-    },
-    $signature: 3
-  };
-  A._AsyncStarStreamController.prototype = {
-    _AsyncStarStreamController$1(body, $T) {
-      var _this = this,
-        t1 = new A._AsyncStarStreamController__resumeBody(body);
-      _this.set$___AsyncStarStreamController_controller_A(_this.$ti._eval$1("StreamController<1>")._as(new A._AsyncStreamController(new A._AsyncStarStreamController_closure(t1), null, new A._AsyncStarStreamController_closure0(_this, t1), new A._AsyncStarStreamController_closure1(_this, body), $T._eval$1("_AsyncStreamController<0>"))));
-    },
-    set$___AsyncStarStreamController_controller_A(___AsyncStarStreamController_controller_A) {
-      this.___AsyncStarStreamController_controller_A = this.$ti._eval$1("StreamController<1>")._as(___AsyncStarStreamController_controller_A);
-    }
-  };
-  A._AsyncStarStreamController__resumeBody.prototype = {
-    call$0() {
-      A.scheduleMicrotask(new A._AsyncStarStreamController__resumeBody_closure(this.body));
-    },
-    $signature: 1
-  };
-  A._AsyncStarStreamController__resumeBody_closure.prototype = {
-    call$0() {
-      this.body.call$2(0, null);
-    },
-    $signature: 0
-  };
-  A._AsyncStarStreamController_closure.prototype = {
-    call$0() {
-      this._resumeBody.call$0();
-    },
-    $signature: 0
-  };
-  A._AsyncStarStreamController_closure0.prototype = {
-    call$0() {
-      var t1 = this.$this;
-      if (t1.isSuspended) {
-        t1.isSuspended = false;
-        this._resumeBody.call$0();
-      }
-    },
-    $signature: 0
-  };
-  A._AsyncStarStreamController_closure1.prototype = {
-    call$0() {
-      var t1 = this.$this,
-        t2 = t1.___AsyncStarStreamController_controller_A;
-      t2 === $ && A.throwLateFieldNI("controller");
-      if ((t2._state & 4) === 0) {
-        t1.cancelationFuture = new A._Future($.Zone__current, type$._Future_dynamic);
-        if (t1.isSuspended) {
-          t1.isSuspended = false;
-          A.scheduleMicrotask(new A._AsyncStarStreamController__closure(this.body));
-        }
-        return t1.cancelationFuture;
-      }
-    },
-    $signature: 15
-  };
-  A._AsyncStarStreamController__closure.prototype = {
-    call$0() {
-      this.body.call$2(2, null);
-    },
-    $signature: 0
-  };
-  A._IterationMarker.prototype = {
-    toString$0(_) {
-      return "IterationMarker(" + this.state + ", " + A.S(this.value) + ")";
-    }
-  };
-  A._SyncStarIterator.prototype = {
-    get$current() {
-      var t1 = this._current;
-      return t1 == null ? this.$ti._precomputed1._as(t1) : t1;
-    },
-    _resumeBody$2(errorCode, errorValue) {
-      var body, t1, exception;
-      errorCode = A._asInt(errorCode);
-      errorValue = errorValue;
-      body = this._body;
-      for (; true;)
-        try {
-          t1 = body(this, errorCode, errorValue);
-          return t1;
-        } catch (exception) {
-          errorValue = exception;
-          errorCode = 1;
-        }
-    },
-    moveNext$0() {
-      var nestedIterator, exception, value, suspendedBodies, _this = this, _null = null, errorValue = null, errorCode = 0;
-      for (; true;) {
-        nestedIterator = _this._nestedIterator;
-        if (nestedIterator != null)
-          try {
-            if (nestedIterator.moveNext$0()) {
-              _this.set$_current(nestedIterator.get$current());
-              return true;
-            } else
-              _this.set$_nestedIterator(_null);
-          } catch (exception) {
-            errorValue = exception;
-            errorCode = 1;
-            _this.set$_nestedIterator(_null);
-          }
-        value = _this._resumeBody$2(errorCode, errorValue);
-        if (1 === value)
-          return true;
-        if (0 === value) {
-          _this.set$_current(_null);
-          suspendedBodies = _this._suspendedBodies;
-          if (suspendedBodies == null || suspendedBodies.length === 0) {
-            _this._body = A._SyncStarIterator__terminatedBody;
-            return false;
-          }
-          if (0 >= suspendedBodies.length)
-            return A.ioore(suspendedBodies, -1);
-          _this._body = suspendedBodies.pop();
-          errorCode = 0;
-          errorValue = null;
-          continue;
-        }
-        if (2 === value) {
-          errorCode = 0;
-          errorValue = null;
-          continue;
-        }
-        if (3 === value) {
-          errorValue = _this._datum;
-          _this._datum = null;
-          suspendedBodies = _this._suspendedBodies;
-          if (suspendedBodies == null || suspendedBodies.length === 0) {
-            _this.set$_current(_null);
-            _this._body = A._SyncStarIterator__terminatedBody;
-            throw errorValue;
-            return false;
-          }
-          if (0 >= suspendedBodies.length)
-            return A.ioore(suspendedBodies, -1);
-          _this._body = suspendedBodies.pop();
-          errorCode = 1;
-          continue;
-        }
-        throw A.wrapException(A.StateError$("sync*"));
-      }
-      return false;
-    },
-    _yieldStar$1(iterable) {
-      var t1, t2, _this = this;
-      if (iterable instanceof A._SyncStarIterable) {
-        t1 = iterable._outerHelper();
-        t2 = _this._suspendedBodies;
-        if (t2 == null)
-          t2 = _this._suspendedBodies = [];
-        B.JSArray_methods.add$1(t2, _this._body);
-        _this._body = t1;
-        return 2;
-      } else {
-        _this.set$_nestedIterator(J.get$iterator$ax(iterable));
-        return 2;
-      }
-    },
-    set$_current(_current) {
-      this._current = this.$ti._eval$1("1?")._as(_current);
-    },
-    set$_nestedIterator(_nestedIterator) {
-      this._nestedIterator = this.$ti._eval$1("Iterator<1>?")._as(_nestedIterator);
-    },
-    $isIterator: 1
-  };
-  A._SyncStarIterable.prototype = {
-    get$iterator(_) {
-      return new A._SyncStarIterator(this._outerHelper(), this.$ti._eval$1("_SyncStarIterator<1>"));
-    }
+    $signature: 10
   };
   A.AsyncError.prototype = {
     toString$0(_) {
@@ -4740,32 +3994,6 @@
     $isError: 1,
     get$stackTrace() {
       return this.stackTrace;
-    }
-  };
-  A._Completer.prototype = {
-    completeError$2(error, stackTrace) {
-      var t1;
-      A.checkNotNullable(error, "error", type$.Object);
-      t1 = this.future;
-      if ((t1._state & 30) !== 0)
-        throw A.wrapException(A.StateError$("Future already completed"));
-      if (stackTrace == null)
-        stackTrace = A.AsyncError_defaultStackTrace(error);
-      t1._asyncCompleteError$2(error, stackTrace);
-    },
-    completeError$1(error) {
-      return this.completeError$2(error, null);
-    }
-  };
-  A._AsyncCompleter.prototype = {
-    complete$1(value) {
-      var t2,
-        t1 = this.$ti;
-      t1._eval$1("1/?")._as(value);
-      t2 = this.future;
-      if ((t2._state & 30) !== 0)
-        throw A.wrapException(A.StateError$("Future already completed"));
-      t2._asyncComplete$1(t1._eval$1("1/")._as(value));
     }
   };
   A._FutureListener.prototype = {
@@ -4832,19 +4060,6 @@
       result = new A._Future($.Zone__current, $E._eval$1("_Future<0>"));
       this._addListener$1(new A._FutureListener(result, 19, f, onError, t1._eval$1("@<1>")._bind$1($E)._eval$1("_FutureListener<1,2>")));
       return result;
-    },
-    whenComplete$1(action) {
-      var t1, result;
-      type$.dynamic_Function._as(action);
-      t1 = this.$ti;
-      result = new A._Future($.Zone__current, t1);
-      this._addListener$1(new A._FutureListener(result, 8, action, null, t1._eval$1("@<1>")._bind$1(t1._precomputed1)._eval$1("_FutureListener<1,2>")));
-      return result;
-    },
-    _setValue$1(value) {
-      this.$ti._precomputed1._as(value);
-      this._state = 8;
-      this._resultOrListeners = value;
     },
     _setErrorObject$1(error) {
       this._state = this._state & 1 | 16;
@@ -4924,16 +4139,6 @@
         A.scheduleMicrotask(new A._Future__chainForeignFuture_closure1(_this, e, s));
       }
     },
-    _complete$1(value) {
-      var listeners, _this = this,
-        t1 = _this.$ti;
-      t1._eval$1("1/")._as(value);
-      listeners = _this._removeListeners$0();
-      t1._precomputed1._as(value);
-      _this._state = 8;
-      _this._resultOrListeners = value;
-      A._Future__propagateToListeners(_this, listeners);
-    },
     _completeWithValue$1(value) {
       var listeners, _this = this;
       _this.$ti._precomputed1._as(value);
@@ -4944,7 +4149,6 @@
     },
     _completeError$2(error, stackTrace) {
       var listeners;
-      type$.Object._as(error);
       type$.StackTrace._as(stackTrace);
       listeners = this._removeListeners$0();
       this._setErrorObject$1(A.AsyncError$(error, stackTrace));
@@ -4975,7 +4179,6 @@
       this._chainForeignFuture$1(value);
     },
     _asyncCompleteError$2(error, stackTrace) {
-      type$.StackTrace._as(stackTrace);
       this._state ^= 2;
       A._rootScheduleMicrotask(null, null, this._zone, type$.void_Function._as(new A._Future__asyncCompleteError_closure(this, error, stackTrace)));
     },
@@ -5006,13 +4209,13 @@
         t1._completeError$2(error, stackTrace);
       }
     },
-    $signature: 3
+    $signature: 2
   };
   A._Future__chainForeignFuture_closure0.prototype = {
     call$2(error, stackTrace) {
       this.$this._completeError$2(type$.Object._as(error), type$.StackTrace._as(stackTrace));
     },
-    $signature: 6
+    $signature: 11
   };
   A._Future__chainForeignFuture_closure1.prototype = {
     call$0() {
@@ -5077,7 +4280,7 @@
     call$1(_) {
       return this.originalSource;
     },
-    $signature: 16
+    $signature: 12
   };
   A._Future__propagateToListeners_handleValueCallback.prototype = {
     call$0() {
@@ -5124,655 +4327,7 @@
     $signature: 0
   };
   A._AsyncCallbackEntry.prototype = {};
-  A.Stream.prototype = {
-    get$length(_) {
-      var t1 = {},
-        future = new A._Future($.Zone__current, type$._Future_int);
-      t1.count = 0;
-      this.listen$4$cancelOnError$onDone$onError(new A.Stream_length_closure(t1, this), true, new A.Stream_length_closure0(t1, future), future.get$_completeError());
-      return future;
-    }
-  };
-  A.Stream_length_closure.prototype = {
-    call$1(_) {
-      this.$this.$ti._precomputed1._as(_);
-      ++this._box_0.count;
-    },
-    $signature() {
-      return this.$this.$ti._eval$1("~(1)");
-    }
-  };
-  A.Stream_length_closure0.prototype = {
-    call$0() {
-      this.future._complete$1(this._box_0.count);
-    },
-    $signature: 0
-  };
-  A._StreamController.prototype = {
-    get$_pendingEvents() {
-      var t1, _this = this;
-      if ((_this._state & 8) === 0)
-        return A._instanceType(_this)._eval$1("_PendingEvents<1>?")._as(_this._varData);
-      t1 = A._instanceType(_this);
-      return t1._eval$1("_PendingEvents<1>?")._as(t1._eval$1("_StreamControllerAddStreamState<1>")._as(_this._varData)._varData);
-    },
-    _ensurePendingEvents$0() {
-      var events, t1, state, _this = this;
-      if ((_this._state & 8) === 0) {
-        events = _this._varData;
-        if (events == null)
-          events = _this._varData = new A._PendingEvents(A._instanceType(_this)._eval$1("_PendingEvents<1>"));
-        return A._instanceType(_this)._eval$1("_PendingEvents<1>")._as(events);
-      }
-      t1 = A._instanceType(_this);
-      state = t1._eval$1("_StreamControllerAddStreamState<1>")._as(_this._varData);
-      events = state._varData;
-      if (events == null)
-        events = state._varData = new A._PendingEvents(t1._eval$1("_PendingEvents<1>"));
-      return t1._eval$1("_PendingEvents<1>")._as(events);
-    },
-    get$_subscription() {
-      var varData = this._varData;
-      if ((this._state & 8) !== 0)
-        varData = type$._StreamControllerAddStreamState_nullable_Object._as(varData)._varData;
-      return A._instanceType(this)._eval$1("_ControllerSubscription<1>")._as(varData);
-    },
-    _badEventState$0() {
-      if ((this._state & 4) !== 0)
-        return new A.StateError("Cannot add event after closing");
-      return new A.StateError("Cannot add event while adding a stream");
-    },
-    addStream$2$cancelOnError(source, cancelOnError) {
-      var t2, t3, t4, t5, t6, _this = this,
-        t1 = A._instanceType(_this);
-      t1._eval$1("Stream<1>")._as(source);
-      t2 = _this._state;
-      if (t2 >= 4)
-        throw A.wrapException(_this._badEventState$0());
-      if ((t2 & 2) !== 0) {
-        t1 = new A._Future($.Zone__current, type$._Future_dynamic);
-        t1._asyncComplete$1(null);
-        return t1;
-      }
-      t2 = _this._varData;
-      t3 = cancelOnError === true;
-      t4 = new A._Future($.Zone__current, type$._Future_dynamic);
-      t5 = t1._eval$1("~(1)")._as(_this.get$_add());
-      t6 = t3 ? A._AddStreamState_makeErrorHandler(_this) : _this.get$_addError();
-      t6 = source.listen$4$cancelOnError$onDone$onError(t5, t3, _this.get$_close(), t6);
-      t3 = _this._state;
-      if ((t3 & 1) !== 0 ? (_this.get$_subscription()._state & 4) !== 0 : (t3 & 2) === 0)
-        t6.pause$0();
-      _this._varData = new A._StreamControllerAddStreamState(t2, t4, t6, t1._eval$1("_StreamControllerAddStreamState<1>"));
-      _this._state |= 8;
-      return t4;
-    },
-    _ensureDoneFuture$0() {
-      var t1 = this._doneFuture;
-      if (t1 == null)
-        t1 = this._doneFuture = (this._state & 2) !== 0 ? $.$get$Future__nullFuture() : new A._Future($.Zone__current, type$._Future_void);
-      return t1;
-    },
-    close$0() {
-      var _this = this,
-        t1 = _this._state;
-      if ((t1 & 4) !== 0)
-        return _this._ensureDoneFuture$0();
-      if (t1 >= 4)
-        throw A.wrapException(_this._badEventState$0());
-      t1 = _this._state = t1 | 4;
-      if ((t1 & 1) !== 0)
-        _this._sendDone$0();
-      else if ((t1 & 3) === 0)
-        _this._ensurePendingEvents$0().add$1(0, B.C__DelayedDone);
-      return _this._ensureDoneFuture$0();
-    },
-    _add$1(value) {
-      var t2, _this = this,
-        t1 = A._instanceType(_this);
-      t1._precomputed1._as(value);
-      t2 = _this._state;
-      if ((t2 & 1) !== 0)
-        _this._sendData$1(value);
-      else if ((t2 & 3) === 0)
-        _this._ensurePendingEvents$0().add$1(0, new A._DelayedData(value, t1._eval$1("_DelayedData<1>")));
-    },
-    _addError$2(error, stackTrace) {
-      var t1;
-      type$.Object._as(error);
-      type$.StackTrace._as(stackTrace);
-      t1 = this._state;
-      if ((t1 & 1) !== 0)
-        this._sendError$2(error, stackTrace);
-      else if ((t1 & 3) === 0)
-        this._ensurePendingEvents$0().add$1(0, new A._DelayedError(error, stackTrace));
-    },
-    _close$0() {
-      var _this = this,
-        addState = A._instanceType(_this)._eval$1("_StreamControllerAddStreamState<1>")._as(_this._varData);
-      _this._varData = addState._varData;
-      _this._state &= 4294967287;
-      addState.addStreamFuture._asyncComplete$1(null);
-    },
-    _subscribe$4(onData, onError, onDone, cancelOnError) {
-      var t2, t3, t4, subscription, pendingEvents, addState, _this = this,
-        t1 = A._instanceType(_this);
-      t1._eval$1("~(1)?")._as(onData);
-      type$.nullable_void_Function._as(onDone);
-      if ((_this._state & 3) !== 0)
-        throw A.wrapException(A.StateError$("Stream has already been listened to."));
-      t2 = $.Zone__current;
-      t3 = cancelOnError ? 1 : 0;
-      type$.$env_1_1_void._bind$1(t1._precomputed1)._eval$1("1(2)")._as(onData);
-      t4 = A._BufferingStreamSubscription__registerErrorHandler(t2, onError);
-      subscription = new A._ControllerSubscription(_this, onData, t4, type$.void_Function._as(onDone), t2, t3 | 32, t1._eval$1("_ControllerSubscription<1>"));
-      pendingEvents = _this.get$_pendingEvents();
-      t2 = _this._state |= 1;
-      if ((t2 & 8) !== 0) {
-        addState = t1._eval$1("_StreamControllerAddStreamState<1>")._as(_this._varData);
-        addState._varData = subscription;
-        addState.addSubscription.resume$0();
-      } else
-        _this._varData = subscription;
-      subscription._setPendingEvents$1(pendingEvents);
-      subscription._guardCallback$1(new A._StreamController__subscribe_closure(_this));
-      return subscription;
-    },
-    _recordCancel$1(subscription) {
-      var result, onCancel, cancelResult, e, s, exception, result0, _this = this,
-        t1 = A._instanceType(_this);
-      t1._eval$1("StreamSubscription<1>")._as(subscription);
-      result = null;
-      if ((_this._state & 8) !== 0)
-        result = t1._eval$1("_StreamControllerAddStreamState<1>")._as(_this._varData).cancel$0();
-      _this._varData = null;
-      _this._state = _this._state & 4294967286 | 2;
-      onCancel = _this.onCancel;
-      if (onCancel != null)
-        if (result == null)
-          try {
-            cancelResult = onCancel.call$0();
-            if (cancelResult instanceof A._Future)
-              result = cancelResult;
-          } catch (exception) {
-            e = A.unwrapException(exception);
-            s = A.getTraceFromException(exception);
-            result0 = new A._Future($.Zone__current, type$._Future_void);
-            result0._asyncCompleteError$2(e, s);
-            result = result0;
-          }
-        else
-          result = result.whenComplete$1(onCancel);
-      t1 = new A._StreamController__recordCancel_complete(_this);
-      if (result != null)
-        result = result.whenComplete$1(t1);
-      else
-        t1.call$0();
-      return result;
-    },
-    $isStreamController: 1,
-    $is_StreamControllerLifecycle: 1,
-    $is_EventDispatch: 1
-  };
-  A._StreamController__subscribe_closure.prototype = {
-    call$0() {
-      A._runGuarded(this.$this.onListen);
-    },
-    $signature: 0
-  };
-  A._StreamController__recordCancel_complete.prototype = {
-    call$0() {
-      var doneFuture = this.$this._doneFuture;
-      if (doneFuture != null && (doneFuture._state & 30) === 0)
-        doneFuture._asyncComplete$1(null);
-    },
-    $signature: 0
-  };
-  A._AsyncStreamControllerDispatch.prototype = {
-    _sendData$1(data) {
-      var t1 = this.$ti;
-      t1._precomputed1._as(data);
-      this.get$_subscription()._addPending$1(new A._DelayedData(data, t1._eval$1("_DelayedData<1>")));
-    },
-    _sendError$2(error, stackTrace) {
-      this.get$_subscription()._addPending$1(new A._DelayedError(error, stackTrace));
-    },
-    _sendDone$0() {
-      this.get$_subscription()._addPending$1(B.C__DelayedDone);
-    }
-  };
-  A._AsyncStreamController.prototype = {};
-  A._ControllerStream.prototype = {};
-  A._ControllerSubscription.prototype = {
-    _onCancel$0() {
-      return this._controller._recordCancel$1(this);
-    },
-    _onPause$0() {
-      var t1 = this._controller,
-        t2 = A._instanceType(t1);
-      t2._eval$1("StreamSubscription<1>")._as(this);
-      if ((t1._state & 8) !== 0)
-        t2._eval$1("_StreamControllerAddStreamState<1>")._as(t1._varData).addSubscription.pause$0();
-      A._runGuarded(t1.onPause);
-    },
-    _onResume$0() {
-      var t1 = this._controller,
-        t2 = A._instanceType(t1);
-      t2._eval$1("StreamSubscription<1>")._as(this);
-      if ((t1._state & 8) !== 0)
-        t2._eval$1("_StreamControllerAddStreamState<1>")._as(t1._varData).addSubscription.resume$0();
-      A._runGuarded(t1.onResume);
-    }
-  };
-  A._AddStreamState.prototype = {
-    cancel$0() {
-      var cancel = this.addSubscription.cancel$0();
-      return cancel.whenComplete$1(new A._AddStreamState_cancel_closure(this));
-    }
-  };
-  A._AddStreamState_makeErrorHandler_closure.prototype = {
-    call$2(e, s) {
-      var t1 = this.controller;
-      t1._addError$2(type$.Object._as(e), type$.StackTrace._as(s));
-      t1._close$0();
-    },
-    $signature: 6
-  };
-  A._AddStreamState_cancel_closure.prototype = {
-    call$0() {
-      this.$this.addStreamFuture._asyncComplete$1(null);
-    },
-    $signature: 1
-  };
-  A._StreamControllerAddStreamState.prototype = {};
-  A._BufferingStreamSubscription.prototype = {
-    _setPendingEvents$1(pendingEvents) {
-      var _this = this;
-      A._instanceType(_this)._eval$1("_PendingEvents<1>?")._as(pendingEvents);
-      if (pendingEvents == null)
-        return;
-      _this.set$_pending(pendingEvents);
-      if (pendingEvents.lastPendingEvent != null) {
-        _this._state = (_this._state | 128) >>> 0;
-        pendingEvents.schedule$1(_this);
-      }
-    },
-    pause$0() {
-      var t2, t3, _this = this,
-        t1 = _this._state;
-      if ((t1 & 8) !== 0)
-        return;
-      t2 = (t1 + 256 | 4) >>> 0;
-      _this._state = t2;
-      if (t1 < 256) {
-        t3 = _this._pending;
-        if (t3 != null)
-          if (t3._state === 1)
-            t3._state = 3;
-      }
-      if ((t1 & 4) === 0 && (t2 & 64) === 0)
-        _this._guardCallback$1(_this.get$_onPause());
-    },
-    resume$0() {
-      var _this = this,
-        t1 = _this._state;
-      if ((t1 & 8) !== 0)
-        return;
-      if (t1 >= 256) {
-        t1 = _this._state = t1 - 256;
-        if (t1 < 256)
-          if ((t1 & 128) !== 0 && _this._pending.lastPendingEvent != null)
-            _this._pending.schedule$1(_this);
-          else {
-            t1 = (t1 & 4294967291) >>> 0;
-            _this._state = t1;
-            if ((t1 & 64) === 0)
-              _this._guardCallback$1(_this.get$_onResume());
-          }
-      }
-    },
-    cancel$0() {
-      var _this = this,
-        t1 = (_this._state & 4294967279) >>> 0;
-      _this._state = t1;
-      if ((t1 & 8) === 0)
-        _this._cancel$0();
-      t1 = _this._cancelFuture;
-      return t1 == null ? $.$get$Future__nullFuture() : t1;
-    },
-    _cancel$0() {
-      var t2, _this = this,
-        t1 = _this._state = (_this._state | 8) >>> 0;
-      if ((t1 & 128) !== 0) {
-        t2 = _this._pending;
-        if (t2._state === 1)
-          t2._state = 3;
-      }
-      if ((t1 & 64) === 0)
-        _this.set$_pending(null);
-      _this._cancelFuture = _this._onCancel$0();
-    },
-    _onPause$0() {
-    },
-    _onResume$0() {
-    },
-    _onCancel$0() {
-      return null;
-    },
-    _addPending$1($event) {
-      var t1, _this = this,
-        pending = _this._pending;
-      if (pending == null) {
-        pending = new A._PendingEvents(A._instanceType(_this)._eval$1("_PendingEvents<1>"));
-        _this.set$_pending(pending);
-      }
-      pending.add$1(0, $event);
-      t1 = _this._state;
-      if ((t1 & 128) === 0) {
-        t1 = (t1 | 128) >>> 0;
-        _this._state = t1;
-        if (t1 < 256)
-          pending.schedule$1(_this);
-      }
-    },
-    _sendData$1(data) {
-      var t2, _this = this,
-        t1 = A._instanceType(_this)._precomputed1;
-      t1._as(data);
-      t2 = _this._state;
-      _this._state = (t2 | 64) >>> 0;
-      _this._zone.runUnaryGuarded$1$2(_this._onData, data, t1);
-      _this._state = (_this._state & 4294967231) >>> 0;
-      _this._checkState$1((t2 & 4) !== 0);
-    },
-    _sendError$2(error, stackTrace) {
-      var cancelFuture, _this = this,
-        t1 = _this._state,
-        t2 = new A._BufferingStreamSubscription__sendError_sendError(_this, error, stackTrace);
-      if ((t1 & 1) !== 0) {
-        _this._state = (t1 | 16) >>> 0;
-        _this._cancel$0();
-        cancelFuture = _this._cancelFuture;
-        if (cancelFuture != null && cancelFuture !== $.$get$Future__nullFuture())
-          cancelFuture.whenComplete$1(t2);
-        else
-          t2.call$0();
-      } else {
-        t2.call$0();
-        _this._checkState$1((t1 & 4) !== 0);
-      }
-    },
-    _sendDone$0() {
-      var cancelFuture, _this = this,
-        t1 = new A._BufferingStreamSubscription__sendDone_sendDone(_this);
-      _this._cancel$0();
-      _this._state = (_this._state | 16) >>> 0;
-      cancelFuture = _this._cancelFuture;
-      if (cancelFuture != null && cancelFuture !== $.$get$Future__nullFuture())
-        cancelFuture.whenComplete$1(t1);
-      else
-        t1.call$0();
-    },
-    _guardCallback$1(callback) {
-      var t1, _this = this;
-      type$.void_Function._as(callback);
-      t1 = _this._state;
-      _this._state = (t1 | 64) >>> 0;
-      callback.call$0();
-      _this._state = (_this._state & 4294967231) >>> 0;
-      _this._checkState$1((t1 & 4) !== 0);
-    },
-    _checkState$1(wasInputPaused) {
-      var t2, isInputPaused, _this = this,
-        t1 = _this._state;
-      if ((t1 & 128) !== 0 && _this._pending.lastPendingEvent == null) {
-        t1 = _this._state = (t1 & 4294967167) >>> 0;
-        if ((t1 & 4) !== 0)
-          if (t1 < 256) {
-            t2 = _this._pending;
-            t2 = t2 == null ? null : t2.lastPendingEvent == null;
-            t2 = t2 !== false;
-          } else
-            t2 = false;
-        else
-          t2 = false;
-        if (t2) {
-          t1 = (t1 & 4294967291) >>> 0;
-          _this._state = t1;
-        }
-      }
-      for (; true; wasInputPaused = isInputPaused) {
-        if ((t1 & 8) !== 0) {
-          _this.set$_pending(null);
-          return;
-        }
-        isInputPaused = (t1 & 4) !== 0;
-        if (wasInputPaused === isInputPaused)
-          break;
-        _this._state = (t1 ^ 64) >>> 0;
-        if (isInputPaused)
-          _this._onPause$0();
-        else
-          _this._onResume$0();
-        t1 = (_this._state & 4294967231) >>> 0;
-        _this._state = t1;
-      }
-      if ((t1 & 128) !== 0 && t1 < 256)
-        _this._pending.schedule$1(_this);
-    },
-    set$_pending(_pending) {
-      this._pending = A._instanceType(this)._eval$1("_PendingEvents<1>?")._as(_pending);
-    },
-    $isStreamSubscription: 1,
-    $is_EventDispatch: 1
-  };
-  A._BufferingStreamSubscription__sendError_sendError.prototype = {
-    call$0() {
-      var onError, t3, t4,
-        t1 = this.$this,
-        t2 = t1._state;
-      if ((t2 & 8) !== 0 && (t2 & 16) === 0)
-        return;
-      t1._state = (t2 | 64) >>> 0;
-      onError = t1._onError;
-      t2 = this.error;
-      t3 = type$.Object;
-      t4 = t1._zone;
-      if (type$.void_Function_Object_StackTrace._is(onError))
-        t4.runBinaryGuarded$2$3(onError, t2, this.stackTrace, t3, type$.StackTrace);
-      else
-        t4.runUnaryGuarded$1$2(type$.void_Function_Object._as(onError), t2, t3);
-      t1._state = (t1._state & 4294967231) >>> 0;
-    },
-    $signature: 0
-  };
-  A._BufferingStreamSubscription__sendDone_sendDone.prototype = {
-    call$0() {
-      var t1 = this.$this,
-        t2 = t1._state;
-      if ((t2 & 16) === 0)
-        return;
-      t1._state = (t2 | 74) >>> 0;
-      t1._zone.runGuarded$1(t1._onDone);
-      t1._state = (t1._state & 4294967231) >>> 0;
-    },
-    $signature: 0
-  };
-  A._StreamImpl.prototype = {
-    listen$4$cancelOnError$onDone$onError(onData, cancelOnError, onDone, onError) {
-      var t1 = this.$ti;
-      t1._eval$1("~(1)?")._as(onData);
-      type$.nullable_void_Function._as(onDone);
-      return this._controller._subscribe$4(t1._eval$1("~(1)?")._as(onData), onError, onDone, cancelOnError);
-    }
-  };
-  A._DelayedEvent.prototype = {
-    set$next(next) {
-      this.next = type$.nullable__DelayedEvent_dynamic._as(next);
-    },
-    get$next() {
-      return this.next;
-    }
-  };
-  A._DelayedData.prototype = {
-    perform$1(dispatch) {
-      this.$ti._eval$1("_EventDispatch<1>")._as(dispatch)._sendData$1(this.value);
-    }
-  };
-  A._DelayedError.prototype = {
-    perform$1(dispatch) {
-      dispatch._sendError$2(this.error, this.stackTrace);
-    }
-  };
-  A._DelayedDone.prototype = {
-    perform$1(dispatch) {
-      dispatch._sendDone$0();
-    },
-    get$next() {
-      return null;
-    },
-    set$next(_) {
-      throw A.wrapException(A.StateError$("No events after a done."));
-    },
-    $is_DelayedEvent: 1
-  };
-  A._PendingEvents.prototype = {
-    schedule$1(dispatch) {
-      var t1, _this = this;
-      _this.$ti._eval$1("_EventDispatch<1>")._as(dispatch);
-      t1 = _this._state;
-      if (t1 === 1)
-        return;
-      if (t1 >= 1) {
-        _this._state = 1;
-        return;
-      }
-      A.scheduleMicrotask(new A._PendingEvents_schedule_closure(_this, dispatch));
-      _this._state = 1;
-    },
-    add$1(_, $event) {
-      var _this = this,
-        lastEvent = _this.lastPendingEvent;
-      if (lastEvent == null)
-        _this.firstPendingEvent = _this.lastPendingEvent = $event;
-      else {
-        lastEvent.set$next($event);
-        _this.lastPendingEvent = $event;
-      }
-    }
-  };
-  A._PendingEvents_schedule_closure.prototype = {
-    call$0() {
-      var t2, $event, nextEvent,
-        t1 = this.$this,
-        oldState = t1._state;
-      t1._state = 0;
-      if (oldState === 3)
-        return;
-      t2 = t1.$ti._eval$1("_EventDispatch<1>")._as(this.dispatch);
-      $event = t1.firstPendingEvent;
-      nextEvent = $event.get$next();
-      t1.firstPendingEvent = nextEvent;
-      if (nextEvent == null)
-        t1.lastPendingEvent = null;
-      $event.perform$1(t2);
-    },
-    $signature: 0
-  };
-  A._StreamIterator.prototype = {
-    get$current() {
-      var _this = this;
-      if (_this._async$_hasValue)
-        return _this.$ti._precomputed1._as(_this._stateData);
-      return _this.$ti._precomputed1._as(null);
-    },
-    moveNext$0() {
-      var future, _this = this,
-        subscription = _this._subscription;
-      if (subscription != null) {
-        if (_this._async$_hasValue) {
-          future = new A._Future($.Zone__current, type$._Future_bool);
-          _this._stateData = future;
-          _this._async$_hasValue = false;
-          subscription.resume$0();
-          return future;
-        }
-        throw A.wrapException(A.StateError$("Already waiting for next."));
-      }
-      return _this._initializeOrDone$0();
-    },
-    _initializeOrDone$0() {
-      var future, subscription, _this = this,
-        stateData = _this._stateData;
-      if (stateData != null) {
-        _this.$ti._eval$1("Stream<1>")._as(stateData);
-        future = new A._Future($.Zone__current, type$._Future_bool);
-        _this._stateData = future;
-        subscription = stateData.listen$4$cancelOnError$onDone$onError(_this.get$_onData(), true, _this.get$_onDone(), _this.get$_onError());
-        if (_this._stateData != null)
-          _this.set$_subscription(subscription);
-        return future;
-      }
-      return $.$get$Future__falseFuture();
-    },
-    cancel$0() {
-      var _this = this,
-        subscription = _this._subscription,
-        stateData = _this._stateData;
-      _this._stateData = null;
-      if (subscription != null) {
-        _this.set$_subscription(null);
-        if (!_this._async$_hasValue)
-          type$._Future_bool._as(stateData)._asyncComplete$1(false);
-        else
-          _this._async$_hasValue = false;
-        return subscription.cancel$0();
-      }
-      return $.$get$Future__nullFuture();
-    },
-    _onData$1(data) {
-      var moveNextFuture, t1, _this = this;
-      _this.$ti._precomputed1._as(data);
-      if (_this._subscription == null)
-        return;
-      moveNextFuture = type$._Future_bool._as(_this._stateData);
-      _this._stateData = data;
-      _this._async$_hasValue = true;
-      moveNextFuture._complete$1(true);
-      if (_this._async$_hasValue) {
-        t1 = _this._subscription;
-        if (t1 != null)
-          t1.pause$0();
-      }
-    },
-    _onError$2(error, stackTrace) {
-      var subscription, moveNextFuture, _this = this;
-      type$.Object._as(error);
-      type$.StackTrace._as(stackTrace);
-      subscription = _this._subscription;
-      moveNextFuture = type$._Future_bool._as(_this._stateData);
-      _this.set$_subscription(null);
-      _this._stateData = null;
-      if (subscription != null)
-        moveNextFuture._completeError$2(error, stackTrace);
-      else
-        moveNextFuture._asyncCompleteError$2(error, stackTrace);
-    },
-    _onDone$0() {
-      var _this = this,
-        subscription = _this._subscription,
-        moveNextFuture = type$._Future_bool._as(_this._stateData);
-      _this.set$_subscription(null);
-      _this._stateData = null;
-      if (subscription != null)
-        moveNextFuture._completeWithValue$1(false);
-      else
-        moveNextFuture._asyncCompleteWithValue$1(false);
-    },
-    set$_subscription(_subscription) {
-      this._subscription = this.$ti._eval$1("StreamSubscription<1>?")._as(_subscription);
-    }
-  };
+  A._StreamIterator.prototype = {};
   A._Zone.prototype = {$isZone: 1};
   A._rootHandleError_closure.prototype = {
     call$0() {
@@ -5790,39 +4345,6 @@
           return;
         }
         A._rootRun(null, null, this, f, type$.void);
-      } catch (exception) {
-        e = A.unwrapException(exception);
-        s = A.getTraceFromException(exception);
-        A._rootHandleError(type$.Object._as(e), type$.StackTrace._as(s));
-      }
-    },
-    runUnaryGuarded$1$2(f, arg, $T) {
-      var e, s, exception;
-      $T._eval$1("~(0)")._as(f);
-      $T._as(arg);
-      try {
-        if (B.C__RootZone === $.Zone__current) {
-          f.call$1(arg);
-          return;
-        }
-        A._rootRunUnary(null, null, this, f, arg, type$.void, $T);
-      } catch (exception) {
-        e = A.unwrapException(exception);
-        s = A.getTraceFromException(exception);
-        A._rootHandleError(type$.Object._as(e), type$.StackTrace._as(s));
-      }
-    },
-    runBinaryGuarded$2$3(f, arg1, arg2, T1, T2) {
-      var e, s, exception;
-      T1._eval$1("@<0>")._bind$1(T2)._eval$1("~(1,2)")._as(f);
-      T1._as(arg1);
-      T2._as(arg2);
-      try {
-        if (B.C__RootZone === $.Zone__current) {
-          f.call$2(arg1, arg2);
-          return;
-        }
-        A._rootRunBinary(null, null, this, f, arg1, arg2, type$.void, T1, T2);
       } catch (exception) {
         e = A.unwrapException(exception);
         s = A.getTraceFromException(exception);
@@ -5915,13 +4437,7 @@
       return "RangeError";
     },
     get$_errorExplanation() {
-      var explanation,
-        start = this.start;
-      if (start == null)
-        explanation = "";
-      else
-        explanation = ": Not greater than or equal to " + A.S(start);
-      return explanation;
+      return "";
     }
   };
   A.IndexError.prototype = {
@@ -5953,17 +4469,9 @@
       return "UnimplementedError: " + this.message;
     }
   };
-  A.StateError.prototype = {
-    toString$0(_) {
-      return "Bad state: " + this.message;
-    }
-  };
   A.ConcurrentModificationError.prototype = {
     toString$0(_) {
-      var t1 = this.modifiedObject;
-      if (t1 == null)
-        return "Concurrent modification during iteration.";
-      return "Concurrent modification during iteration: " + A.Error_safeToString(t1) + ".";
+      return "Concurrent modification during iteration: " + A.Error_safeToString(this.modifiedObject) + ".";
     }
   };
   A.StackOverflowError.prototype = {
@@ -5978,18 +4486,6 @@
   A._Exception.prototype = {
     toString$0(_) {
       return "Exception: " + this.message;
-    }
-  };
-  A.Iterable.prototype = {
-    get$length(_) {
-      var count,
-        it = new A._SyncStarIterator(this._outerHelper(), this.$ti._eval$1("_SyncStarIterator<1>"));
-      for (count = 0; it.moveNext$0();)
-        ++count;
-      return count;
-    },
-    toString$0(_) {
-      return A.Iterable_iterableToShortString(this, "(", ")");
     }
   };
   A.Null.prototype = {
@@ -6023,24 +4519,11 @@
       return t1.charCodeAt(0) == 0 ? t1 : t1;
     }
   };
-  A.promiseToFuture_closure.prototype = {
-    call$1(r) {
-      return this.completer.complete$1(this.T._eval$1("0/?")._as(r));
+  A.Semver_get_order_closure.prototype = {
+    call$2(a, b) {
+      return A._asInt(this._this.order(A._asString(a), A._asString(b)));
     },
-    $signature: 4
-  };
-  A.promiseToFuture_closure0.prototype = {
-    call$1(e) {
-      if (e == null)
-        return this.completer.completeError$1(new A.NullRejectionException(e === undefined));
-      return this.completer.completeError$1(e);
-    },
-    $signature: 4
-  };
-  A.NullRejectionException.prototype = {
-    toString$0(_) {
-      return "Promise was rejected with a value of `" + (this.isUndefined ? "undefined" : "null") + "`.";
-    }
+    $signature: 13
   };
   (function aliases() {
     var _ = J.LegacyJavaScriptObject.prototype;
@@ -6048,47 +4531,28 @@
   })();
   (function installTearOffs() {
     var _static_1 = hunkHelpers._static_1,
-      _static_0 = hunkHelpers._static_0,
-      _static_2 = hunkHelpers._static_2,
-      _instance_2_u = hunkHelpers._instance_2u,
-      _instance_1_u = hunkHelpers._instance_1u,
-      _instance_0_u = hunkHelpers._instance_0u;
-    _static_1(A, "async__AsyncRun__scheduleImmediateJsOverride$closure", "_AsyncRun__scheduleImmediateJsOverride", 5);
-    _static_1(A, "async__AsyncRun__scheduleImmediateWithSetImmediate$closure", "_AsyncRun__scheduleImmediateWithSetImmediate", 5);
-    _static_1(A, "async__AsyncRun__scheduleImmediateWithTimer$closure", "_AsyncRun__scheduleImmediateWithTimer", 5);
+      _static_0 = hunkHelpers._static_0;
+    _static_1(A, "async__AsyncRun__scheduleImmediateJsOverride$closure", "_AsyncRun__scheduleImmediateJsOverride", 1);
+    _static_1(A, "async__AsyncRun__scheduleImmediateWithSetImmediate$closure", "_AsyncRun__scheduleImmediateWithSetImmediate", 1);
+    _static_1(A, "async__AsyncRun__scheduleImmediateWithTimer$closure", "_AsyncRun__scheduleImmediateWithTimer", 1);
     _static_0(A, "async___startMicrotaskLoop$closure", "_startMicrotaskLoop", 0);
-    _static_2(A, "async___nullErrorHandler$closure", "_nullErrorHandler", 2);
-    _instance_2_u(A._Future.prototype, "get$_completeError", "_completeError$2", 2);
-    var _;
-    _instance_1_u(_ = A._StreamController.prototype, "get$_add", "_add$1", 7);
-    _instance_2_u(_, "get$_addError", "_addError$2", 2);
-    _instance_0_u(_, "get$_close", "_close$0", 0);
-    _instance_0_u(_ = A._ControllerSubscription.prototype, "get$_onPause", "_onPause$0", 0);
-    _instance_0_u(_, "get$_onResume", "_onResume$0", 0);
-    _instance_0_u(_ = A._BufferingStreamSubscription.prototype, "get$_onPause", "_onPause$0", 0);
-    _instance_0_u(_, "get$_onResume", "_onResume$0", 0);
-    _instance_1_u(_ = A._StreamIterator.prototype, "get$_onData", "_onData$1", 7);
-    _instance_2_u(_, "get$_onError", "_onError$2", 2);
-    _instance_0_u(_, "get$_onDone", "_onDone$0", 0);
   })();
   (function inheritance() {
     var _mixin = hunkHelpers.mixin,
       _inherit = hunkHelpers.inherit,
       _inheritMany = hunkHelpers.inheritMany;
     _inherit(A.Object, null);
-    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, J.ArrayIterator, A.Error, A.Closure, A.ListIterator, A.FixedLengthListMixin, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A.ExceptionAndStackTrace, A._StackTrace, A.Rti, A._FunctionParameters, A._Type, A._TimerImpl, A._AsyncAwaitCompleter, A._AsyncStarStreamController, A._IterationMarker, A._SyncStarIterator, A.Iterable, A.AsyncError, A._Completer, A._FutureListener, A._Future, A._AsyncCallbackEntry, A.Stream, A._StreamController, A._AsyncStreamControllerDispatch, A._BufferingStreamSubscription, A._AddStreamState, A._DelayedEvent, A._DelayedDone, A._PendingEvents, A._StreamIterator, A._Zone, A.ListBase, A.StackOverflowError, A._Exception, A.Null, A._StringStackTrace, A.StringBuffer, A.NullRejectionException]);
+    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, J.ArrayIterator, A.Error, A.ListIterator, A.FixedLengthListMixin, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A.ExceptionAndStackTrace, A._StackTrace, A.Closure, A.Rti, A._FunctionParameters, A._Type, A._TimerImpl, A._AsyncAwaitCompleter, A.AsyncError, A._FutureListener, A._Future, A._AsyncCallbackEntry, A._StreamIterator, A._Zone, A.ListBase, A.StackOverflowError, A._Exception, A.Null, A._StringStackTrace, A.StringBuffer]);
     _inheritMany(J.Interceptor, [J.JSBool, J.JSNull, J.JavaScriptObject, J.JavaScriptBigInt, J.JavaScriptSymbol, J.JSNumber, J.JSString]);
     _inheritMany(J.JavaScriptObject, [J.LegacyJavaScriptObject, J.JSArray, A.NativeByteBuffer, A.NativeTypedData]);
     _inheritMany(J.LegacyJavaScriptObject, [J.PlainJavaScriptObject, J.UnknownJavaScriptObject, J.JavaScriptFunction]);
     _inherit(J.JSUnmodifiableArray, J.JSArray);
     _inheritMany(J.JSNumber, [J.JSInt, J.JSNumNotInt]);
-    _inheritMany(A.Error, [A.LateError, A.TypeError, A.JsNoSuchMethodError, A.UnknownJsTypeError, A._CyclicInitializationError, A.RuntimeError, A.AssertionError, A._Error, A.ArgumentError, A.UnsupportedError, A.UnimplementedError, A.StateError, A.ConcurrentModificationError]);
-    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._awaitOnObject_closure, A._asyncStarHelper_closure0, A._Future__chainForeignFuture_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.Stream_length_closure, A.promiseToFuture_closure, A.promiseToFuture_closure0]);
-    _inheritMany(A.Closure0Args, [A.nullFuture_closure, A._AsyncRun__scheduleImmediateJsOverride_internalCallback, A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, A._TimerImpl_internalCallback, A._asyncStarHelper_closure, A._AsyncStarStreamController__resumeBody, A._AsyncStarStreamController__resumeBody_closure, A._AsyncStarStreamController_closure, A._AsyncStarStreamController_closure0, A._AsyncStarStreamController_closure1, A._AsyncStarStreamController__closure, A._Future__addListener_closure, A._Future__prependListeners_closure, A._Future__chainForeignFuture_closure1, A._Future__chainCoreFutureAsync_closure, A._Future__asyncCompleteWithValue_closure, A._Future__asyncCompleteError_closure, A._Future__propagateToListeners_handleWhenCompleteCallback, A._Future__propagateToListeners_handleValueCallback, A._Future__propagateToListeners_handleError, A.Stream_length_closure0, A._StreamController__subscribe_closure, A._StreamController__recordCancel_complete, A._AddStreamState_cancel_closure, A._BufferingStreamSubscription__sendError_sendError, A._BufferingStreamSubscription__sendDone_sendDone, A._PendingEvents_schedule_closure, A._rootHandleError_closure, A._RootZone_bindCallbackGuarded_closure]);
+    _inheritMany(A.Error, [A.LateError, A.TypeError, A.JsNoSuchMethodError, A.UnknownJsTypeError, A._CyclicInitializationError, A.RuntimeError, A._Error, A.AssertionError, A.ArgumentError, A.UnsupportedError, A.UnimplementedError, A.ConcurrentModificationError]);
     _inherit(A.NullError, A.TypeError);
+    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._awaitOnObject_closure, A._Future__chainForeignFuture_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure]);
     _inheritMany(A.TearOffClosure, [A.StaticClosure, A.BoundClosure]);
-    _inherit(A._AssertionError, A.AssertionError);
-    _inheritMany(A.Closure2Args, [A.initHooks_closure0, A._awaitOnObject_closure0, A._wrapJsFunctionForAsync_closure, A._Future__chainForeignFuture_closure0, A._AddStreamState_makeErrorHandler_closure]);
+    _inheritMany(A.Closure2Args, [A.initHooks_closure0, A._awaitOnObject_closure0, A._wrapJsFunctionForAsync_closure, A._Future__chainForeignFuture_closure0, A.Semver_get_order_closure]);
     _inheritMany(A.NativeTypedData, [A.NativeByteData, A.NativeTypedArray]);
     _inheritMany(A.NativeTypedArray, [A._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin, A._NativeTypedArrayOfInt_NativeTypedArray_ListMixin]);
     _inherit(A._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin, A._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin);
@@ -6098,68 +4562,49 @@
     _inheritMany(A.NativeTypedArrayOfDouble, [A.NativeFloat32List, A.NativeFloat64List]);
     _inheritMany(A.NativeTypedArrayOfInt, [A.NativeInt16List, A.NativeInt32List, A.NativeInt8List, A.NativeUint16List, A.NativeUint32List, A.NativeUint8ClampedList, A.NativeUint8List]);
     _inherit(A._TypeError, A._Error);
-    _inherit(A._SyncStarIterable, A.Iterable);
-    _inherit(A._AsyncCompleter, A._Completer);
-    _inherit(A._AsyncStreamController, A._StreamController);
-    _inherit(A._StreamImpl, A.Stream);
-    _inherit(A._ControllerStream, A._StreamImpl);
-    _inherit(A._ControllerSubscription, A._BufferingStreamSubscription);
-    _inherit(A._StreamControllerAddStreamState, A._AddStreamState);
-    _inheritMany(A._DelayedEvent, [A._DelayedData, A._DelayedError]);
+    _inheritMany(A.Closure0Args, [A._AsyncRun__scheduleImmediateJsOverride_internalCallback, A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, A._TimerImpl_internalCallback, A._Future__addListener_closure, A._Future__prependListeners_closure, A._Future__chainForeignFuture_closure1, A._Future__chainCoreFutureAsync_closure, A._Future__asyncCompleteWithValue_closure, A._Future__asyncCompleteError_closure, A._Future__propagateToListeners_handleWhenCompleteCallback, A._Future__propagateToListeners_handleValueCallback, A._Future__propagateToListeners_handleError, A._rootHandleError_closure, A._RootZone_bindCallbackGuarded_closure]);
     _inherit(A._RootZone, A._Zone);
     _inheritMany(A.ArgumentError, [A.RangeError, A.IndexError]);
     _mixin(A._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin, A.ListBase);
     _mixin(A._NativeTypedArrayOfDouble_NativeTypedArray_ListMixin_FixedLengthListMixin, A.FixedLengthListMixin);
     _mixin(A._NativeTypedArrayOfInt_NativeTypedArray_ListMixin, A.ListBase);
     _mixin(A._NativeTypedArrayOfInt_NativeTypedArray_ListMixin_FixedLengthListMixin, A.FixedLengthListMixin);
-    _mixin(A._AsyncStreamController, A._AsyncStreamControllerDispatch);
   })();
   var init = {
     typeUniverse: {eC: new Map(), tR: {}, eT: {}, tPV: {}, sEA: []},
     mangledGlobalNames: {int: "int", double: "double", num: "num", String: "String", bool: "bool", Null: "Null", List: "List", Object: "Object", Map: "Map"},
     mangledNames: {},
-    types: ["~()", "Null()", "~(Object,StackTrace)", "Null(@)", "~(@)", "~(~())", "Null(Object,StackTrace)", "~(Object?)", "Future<Null>()", "@(@)", "@(@,String)", "@(String)", "Null(~())", "Null(@,StackTrace)", "~(int,@)", "_Future<@>?()", "_Future<@>(@)"],
+    types: ["~()", "~(~())", "Null(@)", "Null()", "@(@)", "@(@,String)", "@(String)", "Null(~())", "~(@)", "Null(@,StackTrace)", "~(int,@)", "Null(Object,StackTrace)", "_Future<@>(@)", "int(String,String)"],
     interceptorsByTag: null,
     leafTags: null,
     arrayRti: Symbol("$ti")
   };
-  A._Universe_addRules(init.typeUniverse, JSON.parse('{"PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","JavaScriptFunction":"LegacyJavaScriptObject","JSBool":{"bool":[],"TrustedGetRuntimeType":[]},"JSNull":{"Null":[],"TrustedGetRuntimeType":[]},"JavaScriptObject":{"JSObject":[]},"LegacyJavaScriptObject":{"JSObject":[]},"JSArray":{"List":["1"],"JSObject":[],"Iterable":["1"]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"JSObject":[],"Iterable":["1"]},"ArrayIterator":{"Iterator":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[],"TrustedGetRuntimeType":[]},"JSNumNotInt":{"double":[],"num":[],"TrustedGetRuntimeType":[]},"JSString":{"String":[],"TrustedGetRuntimeType":[]},"LateError":{"Error":[]},"ListIterator":{"Iterator":["1"]},"NullError":{"TypeError":[],"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"_CyclicInitializationError":{"Error":[]},"RuntimeError":{"Error":[]},"_AssertionError":{"Error":[]},"NativeByteBuffer":{"JSObject":[],"TrustedGetRuntimeType":[]},"NativeTypedData":{"JSObject":[]},"NativeByteData":{"JSObject":[],"TrustedGetRuntimeType":[]},"NativeTypedArray":{"JavaScriptIndexingBehavior":["1"],"JSObject":[]},"NativeTypedArrayOfDouble":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"]},"NativeTypedArrayOfInt":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"]},"NativeFloat32List":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeFloat64List":{"ListBase":["double"],"List":["double"],"JavaScriptIndexingBehavior":["double"],"JSObject":[],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeInt16List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt32List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt8List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint16List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint32List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8ClampedList":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8List":{"ListBase":["int"],"List":["int"],"JavaScriptIndexingBehavior":["int"],"JSObject":[],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"_Error":{"Error":[]},"_TypeError":{"TypeError":[],"Error":[]},"_Future":{"Future":["1"]},"_SyncStarIterator":{"Iterator":["1"]},"_SyncStarIterable":{"Iterable":["1"]},"AsyncError":{"Error":[]},"_AsyncCompleter":{"_Completer":["1"]},"_StreamController":{"StreamController":["1"],"_StreamControllerLifecycle":["1"],"_EventDispatch":["1"]},"_AsyncStreamController":{"_AsyncStreamControllerDispatch":["1"],"_StreamController":["1"],"StreamController":["1"],"_StreamControllerLifecycle":["1"],"_EventDispatch":["1"]},"_ControllerStream":{"_StreamImpl":["1"],"Stream":["1"]},"_ControllerSubscription":{"_BufferingStreamSubscription":["1"],"StreamSubscription":["1"],"_EventDispatch":["1"]},"_StreamControllerAddStreamState":{"_AddStreamState":["1"]},"_BufferingStreamSubscription":{"StreamSubscription":["1"],"_EventDispatch":["1"]},"_StreamImpl":{"Stream":["1"]},"_DelayedData":{"_DelayedEvent":["1"]},"_DelayedError":{"_DelayedEvent":["@"]},"_DelayedDone":{"_DelayedEvent":["@"]},"_Zone":{"Zone":[]},"_RootZone":{"_Zone":[],"Zone":[]},"double":{"num":[]},"int":{"num":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"StackOverflowError":{"Error":[]},"_StringStackTrace":{"StackTrace":[]},"Int8List":{"List":["int"],"Iterable":["int"]},"Uint8List":{"List":["int"],"Iterable":["int"]},"Uint8ClampedList":{"List":["int"],"Iterable":["int"]},"Int16List":{"List":["int"],"Iterable":["int"]},"Uint16List":{"List":["int"],"Iterable":["int"]},"Int32List":{"List":["int"],"Iterable":["int"]},"Uint32List":{"List":["int"],"Iterable":["int"]},"Float32List":{"List":["double"],"Iterable":["double"]},"Float64List":{"List":["double"],"Iterable":["double"]}}'));
-  A._Universe_addErasedTypes(init.typeUniverse, JSON.parse('{"NativeTypedArray":1,"_DelayedEvent":1}'));
+  A._Universe_addRules(init.typeUniverse, JSON.parse('{"PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","JavaScriptFunction":"LegacyJavaScriptObject","JSBool":{"bool":[],"TrustedGetRuntimeType":[]},"JSNull":{"Null":[],"TrustedGetRuntimeType":[]},"JSArray":{"Iterable":["1"]},"JSUnmodifiableArray":{"JSArray":["1"],"Iterable":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[],"TrustedGetRuntimeType":[]},"JSNumNotInt":{"double":[],"num":[],"TrustedGetRuntimeType":[]},"JSString":{"String":[],"TrustedGetRuntimeType":[]},"LateError":{"Error":[]},"NullError":{"TypeError":[],"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"_CyclicInitializationError":{"Error":[]},"RuntimeError":{"Error":[]},"NativeByteBuffer":{"TrustedGetRuntimeType":[]},"NativeByteData":{"TrustedGetRuntimeType":[]},"NativeTypedArray":{"JavaScriptIndexingBehavior":["1"]},"NativeTypedArrayOfDouble":{"ListBase":["double"],"JavaScriptIndexingBehavior":["double"],"Iterable":["double"],"FixedLengthListMixin":["double"]},"NativeTypedArrayOfInt":{"ListBase":["int"],"JavaScriptIndexingBehavior":["int"],"Iterable":["int"],"FixedLengthListMixin":["int"]},"NativeFloat32List":{"ListBase":["double"],"JavaScriptIndexingBehavior":["double"],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeFloat64List":{"ListBase":["double"],"JavaScriptIndexingBehavior":["double"],"Iterable":["double"],"FixedLengthListMixin":["double"],"TrustedGetRuntimeType":[],"ListBase.E":"double"},"NativeInt16List":{"ListBase":["int"],"JavaScriptIndexingBehavior":["int"],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt32List":{"ListBase":["int"],"JavaScriptIndexingBehavior":["int"],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeInt8List":{"ListBase":["int"],"JavaScriptIndexingBehavior":["int"],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint16List":{"ListBase":["int"],"JavaScriptIndexingBehavior":["int"],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint32List":{"ListBase":["int"],"JavaScriptIndexingBehavior":["int"],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8ClampedList":{"ListBase":["int"],"JavaScriptIndexingBehavior":["int"],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"NativeUint8List":{"ListBase":["int"],"JavaScriptIndexingBehavior":["int"],"Iterable":["int"],"FixedLengthListMixin":["int"],"TrustedGetRuntimeType":[],"ListBase.E":"int"},"_Error":{"Error":[]},"_TypeError":{"TypeError":[],"Error":[]},"_Future":{"Future":["1"]},"AsyncError":{"Error":[]},"_Zone":{"Zone":[]},"_RootZone":{"_Zone":[],"Zone":[]},"double":{"num":[]},"int":{"num":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"StackOverflowError":{"Error":[]},"_StringStackTrace":{"StackTrace":[]},"Int8List":{"Iterable":["int"]},"Uint8List":{"Iterable":["int"]},"Uint8ClampedList":{"Iterable":["int"]},"Int16List":{"Iterable":["int"]},"Uint16List":{"Iterable":["int"]},"Int32List":{"Iterable":["int"]},"Uint32List":{"Iterable":["int"]},"Float32List":{"Iterable":["double"]},"Float64List":{"Iterable":["double"]}}'));
+  A._Universe_addErasedTypes(init.typeUniverse, JSON.parse('{"NativeTypedArray":1}'));
   var string$ = {
     Error_: "Error handler must accept one Object or one Object and a StackTrace as arguments, and return a value of the returned future's type"
   };
   var type$ = (function rtii() {
     var findType = A.findType;
     return {
-      $env_1_1_void: findType("@<~>"),
       AsyncError: findType("AsyncError"),
       Error: findType("Error"),
       Function: findType("Function"),
       Future_dynamic: findType("Future<@>"),
-      Iterable_dynamic: findType("Iterable<@>"),
       JSArray_String: findType("JSArray<String>"),
       JSArray_dynamic: findType("JSArray<@>"),
       JSNull: findType("JSNull"),
-      JSObject: findType("JSObject"),
       JavaScriptFunction: findType("JavaScriptFunction"),
       JavaScriptIndexingBehavior_dynamic: findType("JavaScriptIndexingBehavior<@>"),
       Null: findType("Null"),
       Object: findType("Object"),
       Record: findType("Record"),
       StackTrace: findType("StackTrace"),
-      Stream_dynamic: findType("Stream<@>"),
       String: findType("String"),
       TrustedGetRuntimeType: findType("TrustedGetRuntimeType"),
       TypeError: findType("TypeError"),
       UnknownJavaScriptObject: findType("UnknownJavaScriptObject"),
-      _Future_Null: findType("_Future<Null>"),
-      _Future_bool: findType("_Future<bool>"),
       _Future_dynamic: findType("_Future<@>"),
-      _Future_int: findType("_Future<int>"),
-      _Future_void: findType("_Future<~>"),
-      _StreamControllerAddStreamState_nullable_Object: findType("_StreamControllerAddStreamState<Object?>"),
-      _StreamIterator_String: findType("_StreamIterator<String>"),
-      _SyncStarIterable_String: findType("_SyncStarIterable<String>"),
       bool: findType("bool"),
       bool_Function_Object: findType("bool(Object)"),
       double: findType("double"),
@@ -6172,15 +4617,10 @@
       legacy_Object: findType("Object*"),
       nullable_Future_Null: findType("Future<Null>?"),
       nullable_Object: findType("Object?"),
-      nullable__DelayedEvent_dynamic: findType("_DelayedEvent<@>?"),
       nullable__FutureListener_dynamic_dynamic: findType("_FutureListener<@,@>?"),
-      nullable_void_Function: findType("~()?"),
       num: findType("num"),
       void: findType("~"),
-      void_Function: findType("~()"),
-      void_Function_Object: findType("~(Object)"),
-      void_Function_Object_StackTrace: findType("~(Object,StackTrace)"),
-      void_Function_int_dynamic: findType("~(int,@)")
+      void_Function: findType("~()")
     };
   })();
   (function constants() {
@@ -6317,7 +4757,6 @@
 };
     B.C_JS_CONST3 = function(hooks) { return hooks; }
 ;
-    B.C__DelayedDone = new A._DelayedDone();
     B.C__RootZone = new A._RootZone();
     B.C__StringStackTrace = new A._StringStackTrace();
     B.Type_ByteBuffer_EOZ = A.typeLiteral("ByteBuffer");
@@ -6352,7 +4791,6 @@
   (function lazyInitializers() {
     var _lazyFinal = hunkHelpers.lazyFinal;
     _lazyFinal($, "DART_CLOSURE_PROPERTY_NAME", "$get$DART_CLOSURE_PROPERTY_NAME", () => A.getIsolateAffinityTag("_$dart_dartClosure"));
-    _lazyFinal($, "nullFuture", "$get$nullFuture", () => B.C__RootZone.run$1$1(new A.nullFuture_closure(), A.findType("Future<Null>")));
     _lazyFinal($, "TypeErrorDecoder_noSuchMethodPattern", "$get$TypeErrorDecoder_noSuchMethodPattern", () => A.TypeErrorDecoder_extractPattern(A.TypeErrorDecoder_provokeCallErrorOn({
       toString: function() {
         return "$receiver$";
@@ -6398,12 +4836,6 @@
       }
     }()));
     _lazyFinal($, "_AsyncRun__scheduleImmediateClosure", "$get$_AsyncRun__scheduleImmediateClosure", () => A._AsyncRun__initializeScheduleImmediate());
-    _lazyFinal($, "Future__nullFuture", "$get$Future__nullFuture", () => type$._Future_Null._as($.$get$nullFuture()));
-    _lazyFinal($, "Future__falseFuture", "$get$Future__falseFuture", () => {
-      var t1 = new A._Future(B.C__RootZone, type$._Future_bool);
-      t1._setValue$1(false);
-      return t1;
-    });
   })();
   (function nativeSupport() {
     !function() {

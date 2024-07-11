@@ -1,16 +1,9 @@
-import 'src/glob.dart';
+import 'src/semver.dart';
 
 main() async {
-  final glob = Glob("????.ts");
-  for (final value in glob.scanSync()) {
-    print(value);
-  }
+  final versions = ["1.0.0", "1.0.1", "1.0.0-alpha", "1.0.0-beta", "1.0.0-rc"];
+  print(versions);
 
-  await for (final value in glob.scan()) {
-    print(value);
-  }
-
-  print(glob.match("demo.ts"));
-  print(glob.match("haha.ts"));
-  print(glob.match("demo1.ts"));
+  versions.sort(semver.order);
+  print(versions);
 }

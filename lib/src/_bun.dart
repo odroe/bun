@@ -3,4 +3,8 @@ library;
 
 import 'dart:js_interop';
 
-extension type Bun._(JSAny _) implements JSAny {}
+import 'semver.dart';
+
+extension type Bun._(JSAny _) implements JSAny {
+  external static Semver get semver;
+}

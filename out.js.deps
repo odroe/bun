@@ -1,7 +1,7 @@
 file:///Users/seven/workspace/bun/.dart_tool/package_config.json
 file:///Users/seven/workspace/bun/lib/bun.dart
-file:///Users/seven/workspace/bun/lib/src/_es/iterator.dart
-file:///Users/seven/workspace/bun/lib/src/glob.dart
+file:///Users/seven/workspace/bun/lib/src/_bun.dart
+file:///Users/seven/workspace/bun/lib/src/semver.dart
 file:///Users/seven/workspace/flutter/bin/cache/dart-sdk/lib/_internal/dart2js_platform.dill
 file:///Users/seven/workspace/flutter/bin/cache/dart-sdk/lib/libraries.json
 org-dartlang-sdk:///lib/_http/crypto.dart
